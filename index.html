@@ -151,7 +151,7 @@ body.light .transition-callout-clash { background: #fae8e8; color: #7a1a1a; bord
 .wl-act { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid #1a1a1a; }
 .wl-act:last-child { border-bottom: none; }
 body.light .wl-act { border-color: #f0f0f0; }
-.wl-name { font-size: 13px; font-weight: 700; flex: 1; }
+.wl-name { font-size: 13px; font-weight: 700; flex: 1; word-break: break-word; }
 .wl-stage { font-size: 11px; color: #666; min-width: 110px; }
 .wl-time { font-size: 11px; color: #555; min-width: 85px; }
 .wl-who { display: grid; grid-template-columns: repeat(2, 22px); gap: 3px; }
@@ -289,6 +289,7 @@ body.light .walk-pill-orange .wp-stages { color: #7a3a10; }
     <div class="tabs" id="daytabs"></div>
     <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;">
       <div style="font-size:11px;color:#555;">This is the order on the map starting with the left side (Moosebar / Mainstage) to the right (Freedom Stage)</div>
+      <div style="font-size:11px;color:#555;margin-top:4px;">Tap to save · Double-tap to mark as <span style="color:gold;">⭐ must see</span></div>
       <input type="text" id="search" placeholder="Search artist..." class="search-input" style="width:180px;flex-shrink:0;">
     </div>
     <div id="stage-header-outer" style="overflow-x:hidden;position:sticky;top:0;z-index:5;"></div>
@@ -325,6 +326,7 @@ body.light .walk-pill-orange .wp-stages { color: #7a3a10; }
         </select>
       </div>
       <div id="walk-result"></div>
+      <div style="font-size:11px;color:#666;margin-top:10px;">⚠️ Walk times are estimates based on high-traffic festival conditions. When it's quiet and you're moving fast, most stages are reachable in under 15 min.</div>
     </div>
 
   </div>
@@ -396,7 +398,7 @@ const fri = [
 ];
 
 const sat = [
-  {s:"Mainstage",n:"Discovery",a:t(12),b:t(14)},{s:"Mainstage",n:"Merow",a:t(14),b:t(15)},{s:"Mainstage",n:"Stephani B",a:t(15),b:t(16)},{s:"Mainstage",n:"Omdat Het Ka...",a:t(16),b:t(17)},{s:"Mainstage",n:"Maddix",a:t(17,5),b:t(18,5)},{s:"Mainstage",n:"HALÓ",a:t(18,10),b:t(19,10)},{s:"Mainstage",n:"Boris Brejcha",a:t(19,10),b:t(20,10)},{s:"Mainstage",n:"John Newman",a:t(20,10),b:t(21,10)},{s:"Mainstage",n:"Fisher",a:t(21,15),b:t(22,15)},{s:"Mainstage",n:"Dimitri Vegas & Like Mike",a:t(22,20),b:t(23,35)},{s:"Mainstage",n:"David Guetta",a:t(23,35),b:t(24,50)},
+  {s:"Mainstage",n:"Discovery",a:t(12),b:t(14)},{s:"Mainstage",n:"Merow",a:t(14),b:t(15)},{s:"Mainstage",n:"Stephani B",a:t(15),b:t(16)},{s:"Mainstage",n:"Omdat Het Kan & Average Rob",a:t(16),b:t(17)},{s:"Mainstage",n:"Maddix",a:t(17,5),b:t(18,5)},{s:"Mainstage",n:"HALÓ",a:t(18,10),b:t(19,10)},{s:"Mainstage",n:"Boris Brejcha",a:t(19,10),b:t(20,10)},{s:"Mainstage",n:"John Newman",a:t(20,10),b:t(21,10)},{s:"Mainstage",n:"Fisher",a:t(21,15),b:t(22,15)},{s:"Mainstage",n:"Dimitri Vegas & Like Mike",a:t(22,20),b:t(23,35)},{s:"Mainstage",n:"David Guetta",a:t(23,35),b:t(24,50)},
   {s:"Freedom by Bud",n:"Dave Lambert",a:t(12),b:t(13,30)},{s:"Freedom by Bud",n:"Luna & Lenthe",a:t(13,30),b:t(15)},{s:"Freedom by Bud",n:"Plastik Funk b2b Olympe",a:t(15),b:t(16,30)},{s:"Freedom by Bud",n:"Space 92",a:t(16,30),b:t(18)},{s:"Freedom by Bud",n:"Symphony Of...",a:t(18),b:t(19)},{s:"Freedom by Bud",n:"Meduza",a:t(19),b:t(20)},{s:"Freedom by Bud",n:"Netsky",a:t(20),b:t(21)},{s:"Freedom by Bud",n:"Symphony Of...",a:t(21),b:t(22)},{s:"Freedom by Bud",n:"Armin van Buuren",a:t(22),b:t(24,30)},
   {s:"Rose Garden",n:"Just-K",a:t(12),b:t(13)},{s:"Rose Garden",n:"Phi Phi",a:t(13),b:t(14)},{s:"Rose Garden",n:"Jente b2b Neall",a:t(14),b:t(15)},{s:"Rose Garden",n:"Blvckprint",a:t(15),b:t(16)},{s:"Rose Garden",n:"Greg S.",a:t(16),b:t(17)},{s:"Rose Garden",n:"DJ Furax",a:t(17),b:t(18)},{s:"Rose Garden",n:"DJ Ghost",a:t(18),b:t(19)},{s:"Rose Garden",n:"Push",a:t(19),b:t(20)},{s:"Rose Garden",n:"Jan Vervloet",a:t(20),b:t(21)},{s:"Rose Garden",n:"Funkhauser",a:t(21),b:t(22)},{s:"Rose Garden",n:"Franky Kloeck",a:t(22),b:t(23)},{s:"Rose Garden",n:"X-Tof",a:t(23),b:t(24)},{s:"Rose Garden",n:"Bonzai All Stars",a:t(24),b:t(25)},
   {s:"Elixir",n:"Sojuju & Julia...",a:t(13),b:t(14)},{s:"Elixir",n:"Lordesius & A...",a:t(14),b:t(15)},{s:"Elixir",n:"Pretty Girls Li...",a:t(15),b:t(16)},{s:"Elixir",n:"Ballantine & D...",a:t(16),b:t(17)},{s:"Elixir",n:"WEF",a:t(17),b:t(18)},{s:"Elixir",n:"MELVIEE",a:t(18),b:t(19)},{s:"Elixir",n:"Vunzige Deunt...",a:t(19),b:t(20)},{s:"Elixir",n:"Kurashi Sound...",a:t(20),b:t(21)},{s:"Elixir",n:"Encore Sound...",a:t(21),b:t(22)},{s:"Elixir",n:"Rockefellababe",a:t(22),b:t(23)},{s:"Elixir",n:"Afrolosjes Sou...",a:t(23),b:t(24)},{s:"Elixir",n:"Steww Sounds...",a:t(24),b:t(25)},
@@ -464,7 +466,7 @@ async function loadAllUsers() {
 
 async function saveCurrentUser() {
   if(!currentUser) return;
-  await supaFetch('picks?id=eq.' + currentUser.id, 'PATCH', { favorites: currentUser.favorites, updated_at: new Date().toISOString() });
+  await supaFetch('picks?id=eq.' + currentUser.id, 'PATCH', { favorites: currentUser.favorites, mustsees: currentUser.mustsees || [], updated_at: new Date().toISOString() });
   await loadAllUsers();
 }
 
@@ -639,6 +641,7 @@ function renderGrid() {
   const SW = Math.max(72, Math.floor(1200 / stageList.length));
   const gridH = (EH - SH) * PX;
   const myFavs = new Set(Array.isArray(currentUser?.favorites) ? currentUser.favorites : []);
+  const myMustSees = new Set(Array.isArray(currentUser?.mustsees) ? currentUser.mustsees : []);
 
   // Sticky header row
   const stickyWrap = document.createElement('div');
@@ -678,30 +681,72 @@ function renderGrid() {
       const h = Math.max(22, (act.b - act.a) * PX - 2);
       const k = favKey(act);
       const isMeFav = myFavs.has(k);
+      const isMeMustSee = myMustSees.has(k);
       const whoFavs = allUsers.filter(u => Array.isArray(u.favorites) && u.favorites.includes(k));
       const show = search ? act.n.toLowerCase().includes(search) : true;
       const el = document.createElement('div');
       el.className = 'act' + (!show ? ' dimmed' : '');
       el.style.cssText = 'top:' + top + 'px;height:' + h + 'px;left:' + (si*SW+2) + 'px;width:' + (SW-4) + 'px;background:' + bg + ';color:' + fg + ';';
-      if(isMeFav) el.style.outline = '2px solid ' + currentUser.color;
+      if(isMeMustSee) el.style.outline = '2.5px solid gold';
+      else if(isMeFav) el.style.outline = '2px solid ' + currentUser.color;
       const nm = document.createElement('div'); nm.className = 'act-name'; nm.textContent = act.n; el.appendChild(nm);
       if(h > 36) { const tm = document.createElement('div'); tm.className = 'act-time'; tm.textContent = fmt12(act.a) + '–' + fmt12(act.b); el.appendChild(tm); }
       if(whoFavs.length > 0 && h > 28) {
         const dots = document.createElement('div'); dots.className = 'act-favs';
         whoFavs.forEach(u => {
+          const isMust = Array.isArray(u.mustsees) && u.mustsees.includes(k);
+          const wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:relative;display:inline-flex;';
           const d = document.createElement('div'); d.className = 'fav-avatar';
-          d.style.background = u.color; d.title = u.name;
+          d.style.background = u.color;
+          d.style.outline = isMust ? '2px solid gold' : 'none';
+          d.style.outlineOffset = '1px';
+          d.title = u.name + (isMust ? ' ⭐' : '');
           d.textContent = u.initials || '?';
-          dots.appendChild(d);
+          wrapper.appendChild(d);
+          if(isMust) {
+            const badge = document.createElement('div');
+            badge.style.cssText = 'position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:13px;line-height:1;pointer-events:none;filter:drop-shadow(0 0 2px rgba(0,0,0,0.5));';
+            badge.textContent = '⭐';
+            wrapper.appendChild(badge);
+          }
+          dots.appendChild(wrapper);
         });
         el.appendChild(dots);
       }
+      let tapTimer = null;
       el.onclick = async () => {
         if(!currentUser) return;
-        const favs = Array.isArray(currentUser.favorites) ? [...currentUser.favorites] : [];
-        const idx = favs.indexOf(k);
-        if(idx >= 0) favs.splice(idx, 1); else favs.push(k);
-        currentUser.favorites = favs;
+        if(tapTimer) {
+          // double tap — toggle must-see
+          clearTimeout(tapTimer); tapTimer = null;
+          const favs = Array.isArray(currentUser.favorites) ? [...currentUser.favorites] : [];
+          if(!favs.includes(k)) { favs.push(k); currentUser.favorites = favs; }
+          const ms = Array.isArray(currentUser.mustsees) ? [...currentUser.mustsees] : [];
+          const msi = ms.indexOf(k);
+          if(msi >= 0) ms.splice(msi, 1); else ms.push(k);
+          currentUser.mustsees = ms;
+        } else {
+          tapTimer = setTimeout(async () => {
+            tapTimer = null;
+            const favs = Array.isArray(currentUser.favorites) ? [...currentUser.favorites] : [];
+            const idx = favs.indexOf(k);
+            if(idx >= 0) {
+              favs.splice(idx, 1);
+              // also remove from must-sees if unfaving
+              const ms = Array.isArray(currentUser.mustsees) ? [...currentUser.mustsees] : [];
+              const msi = ms.indexOf(k);
+              if(msi >= 0) ms.splice(msi, 1);
+              currentUser.mustsees = ms;
+            } else {
+              favs.push(k);
+            }
+            currentUser.favorites = favs;
+            updateFavCount(); renderGrid();
+            await saveCurrentUser();
+          }, 250);
+          return;
+        }
         updateFavCount(); renderGrid();
         await saveCurrentUser();
       };
@@ -715,145 +760,158 @@ function renderGrid() {
 
 const WALK_MIN = 10;
 const WALK_TIMES = {
-  // Your confirmed times
-  'Mainstage|Freedom by Bud': 35,
-  'Mainstage|The Great Library': 10,
-  'Mainstage|House Of Fortune by JBL': 5,
-  'Mainstage|Crystal Garden': 15,
-  'Mainstage|Atmosphere': 15,
-  'Mainstage|Core': 20,
-  'Mainstage|Rose Garden': 30,
-  'Mainstage|Melodia by Corona': 25,
-  'Mainstage|Planaxis': 20,
-  'Freedom by Bud|Rose Garden': 5,
-  // Estimated from map (stages near each other on map get lower times)
-  'Mainstage|Elixir': 20,
-  'Mainstage|Cage': 25,
-  'Mainstage|The Rave Cave': 25,
-  'Mainstage|Celestia by Kucoin': 20,
-  'Mainstage|Moosebar': 15,
-  'Freedom by Bud|Elixir': 20,
-  'Freedom by Bud|Cage': 20,
-  'Freedom by Bud|The Rave Cave': 25,
-  'Freedom by Bud|Melodia by Corona': 20,
-  'Freedom by Bud|Celestia by Kucoin': 25,
-  'Freedom by Bud|Planaxis': 30,
-  'Freedom by Bud|Atmosphere': 30,
-  'Freedom by Bud|Core': 30,
-  'Freedom by Bud|Crystal Garden': 35,
-  'Freedom by Bud|The Great Library': 35,
-  'Freedom by Bud|House Of Fortune by JBL': 35,
-  'Freedom by Bud|Moosebar': 25,
-  'Rose Garden|Elixir': 15,
-  'Rose Garden|Cage': 15,
-  'Rose Garden|The Rave Cave': 20,
-  'Rose Garden|Melodia by Corona': 15,
-  'Rose Garden|Celestia by Kucoin': 20,
-  'Rose Garden|Planaxis': 25,
-  'Rose Garden|Atmosphere': 25,
-  'Rose Garden|Core': 25,
-  'Rose Garden|Crystal Garden': 30,
-  'Rose Garden|The Great Library': 30,
-  'Rose Garden|House Of Fortune by JBL': 30,
-  'Rose Garden|Moosebar': 20,
-  'Elixir|Cage': 5,
-  'Elixir|The Rave Cave': 10,
-  'Elixir|Melodia by Corona': 10,
-  'Elixir|Celestia by Kucoin': 10,
-  'Elixir|Planaxis': 15,
-  'Elixir|Atmosphere': 20,
-  'Elixir|Core': 15,
-  'Elixir|Crystal Garden': 15,
-  'Elixir|The Great Library': 15,
-  'Elixir|House Of Fortune by JBL': 15,
-  'Elixir|Moosebar': 10,
-  'Cage|The Rave Cave': 10,
-  'Cage|Melodia by Corona': 10,
-  'Cage|Celestia by Kucoin': 10,
-  'Cage|Planaxis': 15,
-  'Cage|Atmosphere': 20,
-  'Cage|Core': 15,
-  'Cage|Crystal Garden': 20,
-  'Cage|The Great Library': 20,
-  'Cage|House Of Fortune by JBL': 20,
-  'Cage|Moosebar': 10,
-  'The Rave Cave|Melodia by Corona': 10,
-  'The Rave Cave|Celestia by Kucoin': 10,
-  'The Rave Cave|Planaxis': 15,
-  'The Rave Cave|Atmosphere': 20,
-  'The Rave Cave|Core': 15,
-  'The Rave Cave|Crystal Garden': 20,
-  'The Rave Cave|The Great Library': 20,
-  'The Rave Cave|House Of Fortune by JBL': 20,
-  'The Rave Cave|Moosebar': 10,
-  'Melodia by Corona|Celestia by Kucoin': 5,
-  'Melodia by Corona|Planaxis': 10,
-  'Melodia by Corona|Atmosphere': 15,
-  'Melodia by Corona|Core': 15,
-  'Melodia by Corona|Crystal Garden': 15,
-  'Melodia by Corona|The Great Library': 20,
-  'Melodia by Corona|House Of Fortune by JBL': 20,
-  'Melodia by Corona|Moosebar': 10,
-  'Celestia by Kucoin|Planaxis': 10,
-  'Celestia by Kucoin|Atmosphere': 15,
-  'Celestia by Kucoin|Core': 15,
-  'Celestia by Kucoin|Crystal Garden': 15,
-  'Celestia by Kucoin|The Great Library': 20,
-  'Celestia by Kucoin|House Of Fortune by JBL': 20,
-  'Celestia by Kucoin|Moosebar': 10,
-  'Planaxis|Atmosphere': 10,
-  'Planaxis|Core': 15,
-  'Planaxis|Crystal Garden': 20,
-  'Planaxis|The Great Library': 20,
-  'Planaxis|House Of Fortune by JBL': 20,
-  'Planaxis|Moosebar': 15,
-  'Atmosphere|Core': 10,
-  'Atmosphere|Crystal Garden': 15,
-  'Atmosphere|The Great Library': 15,
-  'Atmosphere|House Of Fortune by JBL': 15,
-  'Atmosphere|Moosebar': 15,
-  'Core|Crystal Garden': 10,
-  'Core|The Great Library': 10,
-  'Core|House Of Fortune by JBL': 10,
-  'Core|Moosebar': 15,
-  'Crystal Garden|The Great Library': 5,
-  'Crystal Garden|House Of Fortune by JBL': 10,
-  'Crystal Garden|Moosebar': 15,
-  'The Great Library|House Of Fortune by JBL': 5,
-  'The Great Library|Moosebar': 15,
-  'House Of Fortune by JBL|Moosebar': 10,
+  // Confirmed
+  'Mainstage|Freedom by Bud': [30,35],
+  'Mainstage|The Great Library': [5,10],
+  'Mainstage|House Of Fortune by JBL': [3,5],
+  'Mainstage|Crystal Garden': [10,15],
+  'Mainstage|Atmosphere': [10,15],
+  'Mainstage|Core': [15,20],
+  'Mainstage|Rose Garden': [25,30],
+  'Mainstage|Melodia by Corona': [20,25],
+  'Mainstage|Planaxis': [15,20],
+  'Freedom by Bud|Rose Garden': [2,3],
+  'Atmosphere|Freedom by Bud': [20,25],
+  'Atmosphere|Core': [3,5],
+  'Moosebar|Freedom by Bud': [30,35],
+  'Moosebar|Mainstage': [2,3],
+  'Core|Atmosphere': [5,10],
+  'Celestia by Kucoin|Freedom by Bud': [20,25],
+  'Freedom by Bud|Crystal Garden': [30,35],
+  'Core|Crystal Garden': [5,10],
+  'The Great Library|Core': [10,15],
+  'Freedom by Bud|Core': [25,30],
+  'Cage|The Rave Cave': [2,3],
+  'Elixir|Melodia by Corona': [3,5],
+  'Rose Garden|Elixir': [3,5],
+  'Planaxis|Crystal Garden': [3,5],
+  // One-way routes (longer in reverse due to forced detour)
+  'Atmosphere|The Rave Cave': [15,20],
+  'The Rave Cave|Atmosphere': [25,30],
+  'Elixir|Rose Garden': [3,5],
+  'Rose Garden|Cage': [15,20],
+  // Estimated
+  'Mainstage|Elixir': [10,15],
+  'Mainstage|Cage': [15,20],
+  'Mainstage|The Rave Cave': [15,20],
+  'Mainstage|Celestia by Kucoin': [10,15],
+  'Mainstage|Moosebar': [2,3],
+  'Freedom by Bud|Elixir': [10,15],
+  'Freedom by Bud|Cage': [10,15],
+  'Freedom by Bud|The Rave Cave': [15,20],
+  'Freedom by Bud|Melodia by Corona': [10,15],
+  'Freedom by Bud|Planaxis': [20,25],
+  'Freedom by Bud|Atmosphere': [20,25],
+  'Freedom by Bud|The Great Library': [25,30],
+  'Freedom by Bud|House Of Fortune by JBL': [25,30],
+  'Freedom by Bud|Moosebar': [15,20],
+  'Rose Garden|The Rave Cave': [10,15],
+  'Rose Garden|Melodia by Corona': [5,10],
+  'Rose Garden|Celestia by Kucoin': [10,15],
+  'Rose Garden|Planaxis': [15,20],
+  'Rose Garden|Atmosphere': [20,25],
+  'Rose Garden|Core': [25,30],
+  'Rose Garden|Crystal Garden': [20,25],
+  'Rose Garden|The Great Library': [25,30],
+  'Rose Garden|House Of Fortune by JBL': [25,30],
+  'Rose Garden|Moosebar': [20,25],
+  'Elixir|Cage': [2,3],
+  'Elixir|The Rave Cave': [2,3],
+  'Elixir|Celestia by Kucoin': [3,5],
+  'Elixir|Planaxis': [10,15],
+  'Elixir|Atmosphere': [15,20],
+  'Elixir|Core': [20,25],
+  'Elixir|Crystal Garden': [15,20],
+  'Elixir|The Great Library': [20,25],
+  'Elixir|House Of Fortune by JBL': [20,25],
+  'Elixir|Moosebar': [15,20],
+  'Cage|Melodia by Corona': [3,5],
+  'Cage|Celestia by Kucoin': [3,5],
+  'Cage|Planaxis': [10,15],
+  'Cage|Atmosphere': [15,20],
+  'Cage|Core': [20,25],
+  'Cage|Crystal Garden': [15,20],
+  'Cage|The Great Library': [20,25],
+  'Cage|House Of Fortune by JBL': [20,25],
+  'Cage|Moosebar': [15,20],
+  'The Rave Cave|Melodia by Corona': [5,10],
+  'The Rave Cave|Celestia by Kucoin': [2,3],
+  'The Rave Cave|Planaxis': [10,15],
+  'The Rave Cave|Core': [20,25],
+  'The Rave Cave|Crystal Garden': [15,20],
+  'The Rave Cave|The Great Library': [20,25],
+  'The Rave Cave|House Of Fortune by JBL': [20,25],
+  'The Rave Cave|Moosebar': [20,25],
+  'The Rave Cave|Freedom by Bud': [15,20],
+  'The Rave Cave|Rose Garden': [15,20],
+  'Melodia by Corona|Celestia by Kucoin': [5,10],
+  'Melodia by Corona|Planaxis': [3,5],
+  'Melodia by Corona|Atmosphere': [10,15],
+  'Melodia by Corona|Core': [15,20],
+  'Melodia by Corona|Crystal Garden': [10,15],
+  'Melodia by Corona|The Great Library': [15,20],
+  'Melodia by Corona|House Of Fortune by JBL': [15,20],
+  'Melodia by Corona|Moosebar': [15,20],
+  'Celestia by Kucoin|Planaxis': [3,5],
+  'Celestia by Kucoin|Atmosphere': [10,15],
+  'Celestia by Kucoin|Core': [15,20],
+  'Celestia by Kucoin|Crystal Garden': [10,15],
+  'Celestia by Kucoin|The Great Library': [15,20],
+  'Celestia by Kucoin|House Of Fortune by JBL': [15,20],
+  'Celestia by Kucoin|Moosebar': [15,20],
+  'Planaxis|Atmosphere': [3,5],
+  'Planaxis|Core': [5,10],
+  'Planaxis|The Great Library': [10,15],
+  'Planaxis|House Of Fortune by JBL': [10,15],
+  'Planaxis|Moosebar': [5,10],
+  'Atmosphere|Crystal Garden': [3,5],
+  'Atmosphere|The Great Library': [10,15],
+  'Atmosphere|House Of Fortune by JBL': [10,15],
+  'Atmosphere|Moosebar': [10,15],
+  'Core|The Great Library': [15,20],
+  'Core|House Of Fortune by JBL': [10,15],
+  'Core|Moosebar': [15,20],
+  'Crystal Garden|The Great Library': [5,10],
+  'Crystal Garden|House Of Fortune by JBL': [3,5],
+  'Crystal Garden|Moosebar': [5,10],
+  'The Great Library|House Of Fortune by JBL': [5,10],
+  'The Great Library|Moosebar': [3,5],
+  'House Of Fortune by JBL|Moosebar': [5,10],
 };
+// One-way routes — these are NOT symmetric, don't reverse
+const ONE_WAY_PAIRS = new Set([
+  'Atmosphere|The Rave Cave','The Rave Cave|Atmosphere',
+  'Elixir|Rose Garden','Rose Garden|Cage',
+]);
 function walkTime(s1, s2) {
-  if(s1 === s2) return 0;
+  if(s1 === s2) return null;
   const key = s1 + '|' + s2;
   const rev = s2 + '|' + s1;
   if(WALK_TIMES[key] !== undefined) return WALK_TIMES[key];
-  if(WALK_TIMES[rev] !== undefined) return WALK_TIMES[rev];
-  return null; // unknown
+  // Only reverse-lookup if neither direction is a one-way pair
+  if(!ONE_WAY_PAIRS.has(key) && !ONE_WAY_PAIRS.has(rev) && WALK_TIMES[rev] !== undefined) return WALK_TIMES[rev];
+  return null;
 }
+function fmtRange(r) { return Array.isArray(r) ? (r[0] === r[1] ? r[0] + ' min' : r[0] + '–' + r[1] + ' min') : r + ' min'; }
 function fmtMins(m) { if(m < 60) return m + ' min'; return Math.floor(m/60) + 'h ' + (m%60 ? (m%60) + 'm' : ''); }
 function transitionVerdict(actA, actB) {
   const wt = walkTime(actA.s, actB.s);
-  const leaveAt = actA.b - WALK_MIN/60; // leave WALK_MIN mins before end
-  const overlapMins = Math.round((actA.b - actB.a) * 60); // positive = sets overlap
+  const overlapMins = Math.round((actA.b - actB.a) * 60);
   if(wt === null) {
-    if(overlapMins <= 0) return { type: 'ok', msg: 'No walk time data — sets don\'t overlap' };
+    if(overlapMins <= 0) return { type: 'ok', msg: null };
     if(overlapMins <= 10) return { type: 'tight', msg: 'Sets overlap by ' + overlapMins + ' min — leave a bit early' };
-    return { type: 'clash', msg: 'Sets overlap by ' + overlapMins + ' min — no walk data for this route' };
+    return { type: 'clash', msg: 'Sets overlap by ' + overlapMins + ' min' };
   }
-  // time you arrive at next stage = leaveAt + walkTime (in hours)
-  const arriveAt = leaveAt + wt/60;
-  const missStart = Math.round((arriveAt - actB.a) * 60); // positive = arrive after start
-  const gapMins = Math.round((actB.a - actA.b) * 60); // positive = gap between sets
+  const wtMax = Array.isArray(wt) ? wt[1] : wt;
+  const leaveAt = actA.b - WALK_MIN/60;
+  const arriveAt = leaveAt + wtMax/60;
+  const missStart = Math.round((arriveAt - actB.a) * 60);
   if(missStart <= 0) {
-    // arrive before start — easy
-    const earlyMins = Math.abs(missStart);
-    if(gapMins >= 0) return { type: 'ok', msg: wt + ' min walk · ' + fmtMins(gapMins + earlyMins) + ' to spare' };
-    return { type: 'ok', msg: wt + ' min walk · arrive ' + earlyMins + ' min before start' };
+    return { type: 'ok', msg: fmtRange(wt) + ' walk' };
   } else if(missStart <= 15) {
-    return { type: 'tight', msg: wt + ' min walk · miss first ' + missStart + ' min — leave ' + WALK_MIN + ' min early' };
+    return { type: 'tight', msg: fmtRange(wt) + ' walk · miss first ~' + missStart + ' min' };
   } else {
-    return { type: 'clash', msg: wt + ' min walk · miss first ' + missStart + ' min even leaving early' };
+    return { type: 'clash', msg: fmtRange(wt) + ' walk · miss first ~' + missStart + ' min' };
   }
 }
 
@@ -946,8 +1004,9 @@ function renderMySchedule() {
         // Check overlap with any act in other columns at same time
         const hasOverlap = numCols > 1 && columns.some((otherCol, oi) => oi !== ci && otherCol.some(o => o.a < act.b && o.b > act.a));
 
+        const isMust = Array.isArray(currentUser.mustsees) && currentUser.mustsees.includes(favKey(act));
         const block = document.createElement('div'); block.className = 'mini-act';
-        block.style.cssText = `top:${top}px;height:${h}px;left:${leftPct}%;width:calc(${widthPct}% - 4px);background:${bg};color:${fg};cursor:default;border-radius:6px;`;
+        block.style.cssText = `top:${top}px;height:${h}px;left:${leftPct}%;width:calc(${widthPct}% - 4px);background:${bg};color:${fg};cursor:default;border-radius:6px;outline:${isMust ? '2.5px solid gold' : 'none'};`;
         const nm = document.createElement('div'); nm.className = 'mini-act-name'; nm.textContent = act.n; block.appendChild(nm);
         if(h > 30) { const sg = document.createElement('div'); sg.className = 'mini-act-stage'; sg.textContent = act.s; block.appendChild(sg); }
         if(h > 44) { const tm = document.createElement('div'); tm.className = 'mini-act-time'; tm.textContent = fmt12(act.a) + '–' + fmt12(act.b); block.appendChild(tm); }
@@ -972,7 +1031,7 @@ function renderMySchedule() {
       if(isEasyWithGap) { right.appendChild(document.createElement('div')); return; }
 
       const stageMove = act.s !== next.s ? act.s + ' → ' + next.s : 'Same stage';
-      const walkStr = wt !== null && act.s !== next.s ? ' (~' + wt + ' min walk)' : '';
+      const walkStr = wt !== null && act.s !== next.s ? ' (' + fmtRange(wt) + ' walk)' : '';
 
       const callout = document.createElement('div');
       callout.className = 'transition-callout transition-callout-' + verdict.type;
@@ -1009,11 +1068,23 @@ function renderWhoLikes() {
       const timeEl = document.createElement('span'); timeEl.className = 'wl-time'; timeEl.textContent = fmt12(act.a) + '–' + fmt12(act.b);
       const whoEl = document.createElement('div'); whoEl.className = 'wl-who';
       who.forEach(u => {
+        const isMust = Array.isArray(u.mustsees) && u.mustsees.includes(k);
         const p = document.createElement('div'); p.className = 'wl-person';
+        const wrapper = document.createElement('div'); wrapper.style.cssText = 'position:relative;display:inline-flex;';
         const dot = document.createElement('div'); dot.className = 'wl-pdot';
-        dot.style.background = u.color; dot.textContent = u.initials || '?';
-        dot.title = u.name;
-        p.appendChild(dot); whoEl.appendChild(p);
+        dot.style.background = u.color;
+        dot.style.outline = isMust ? '2px solid gold' : 'none';
+        dot.style.outlineOffset = '1px';
+        dot.textContent = u.initials || '?';
+        dot.title = u.name + (isMust ? ' — must see' : '');
+        wrapper.appendChild(dot);
+        if(isMust) {
+          const badge = document.createElement('div');
+          badge.style.cssText = 'position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:13px;line-height:1;pointer-events:none;filter:drop-shadow(0 0 2px rgba(0,0,0,0.5));';
+          badge.textContent = '⭐';
+          wrapper.appendChild(badge);
+        }
+        p.appendChild(wrapper); whoEl.appendChild(p);
       });
       row.appendChild(nameEl); row.appendChild(stageEl); row.appendChild(timeEl); row.appendChild(whoEl);
       card.appendChild(row);
@@ -1039,7 +1110,10 @@ if(savedTheme === 'light') { document.body.classList.add('light'); document.getE
 const WALK_CONFIRMED = new Set([
   'Mainstage|Freedom by Bud','Mainstage|The Great Library','Mainstage|House Of Fortune by JBL',
   'Mainstage|Crystal Garden','Mainstage|Atmosphere','Mainstage|Core','Mainstage|Rose Garden',
-  'Mainstage|Melodia by Corona','Mainstage|Planaxis','Freedom by Bud|Rose Garden'
+  'Mainstage|Melodia by Corona','Mainstage|Planaxis','Freedom by Bud|Rose Garden',
+  'Atmosphere|Freedom by Bud','Atmosphere|Core','Moosebar|Freedom by Bud','Moosebar|Mainstage',
+  'Freedom by Bud|Rose Garden','Cage|The Rave Cave','Elixir|Melodia by Corona','Rose Garden|Elixir',
+  'Planaxis|Crystal Garden'
 ]);
 
 function renderInfoMap() {
@@ -1064,19 +1138,24 @@ function renderInfoMap() {
     const from = fromSel.value, to = toSel.value;
     const res = document.getElementById('walk-result');
     if(!from || !to) { res.innerHTML = ''; return; }
-    if(from === to) { res.innerHTML = '<div style="padding:14px 16px;border-radius:10px;background:#1a1a1a;font-size:14px;color:#888;">Same stage — no walking needed!</div>'; return; }
+    if(from === to) { res.innerHTML = '<div style="padding:14px 16px;border-radius:10px;font-size:14px;color:#888;">Same stage — no walking needed!</div>'; return; }
     const key = from+'|'+to, rev = to+'|'+from;
-    const mins = WALK_TIMES[key] !== undefined ? WALK_TIMES[key] : WALK_TIMES[rev];
-    if(mins === undefined) { res.innerHTML = '<div style="padding:14px 16px;border-radius:10px;background:#1a1a1a;font-size:14px;color:#888;">No data for this pair.</div>'; return; }
+    const wt = WALK_TIMES[key] !== undefined ? WALK_TIMES[key] : WALK_TIMES[rev];
+    if(wt === undefined) { res.innerHTML = '<div style="padding:14px 16px;border-radius:10px;font-size:14px;color:#888;">No data for this pair.</div>'; return; }
+    const isOneWay = ONE_WAY_PAIRS.has(key) || ONE_WAY_PAIRS.has(rev);
     const confirmed = WALK_CONFIRMED.has(key) || WALK_CONFIRMED.has(rev);
-    const color = mins <= 10 ? '#4ade80' : mins <= 20 ? '#fbbf24' : mins <= 30 ? '#fb923c' : '#f87171';
-    const label = confirmed ? '✅ confirmed from Reddit' : '〜 estimated from map position';
+    const wtMax = Array.isArray(wt) ? wt[1] : wt;
+    const color = wtMax <= 10 ? '#4ade80' : wtMax <= 20 ? '#fbbf24' : wtMax <= 30 ? '#fb923c' : '#f87171';
+    const display = Array.isArray(wt) ? (wt[0] === wt[1] ? wt[0] + '<span style="font-size:20px;">m</span>' : wt[0] + '<span style="font-size:24px;font-weight:400;">–</span>' + wt[1] + '<span style="font-size:20px;">m</span>') : wt + '<span style="font-size:20px;">m</span>';
+    const label = confirmed ? '✅ confirmed' : '〜 estimated from map';
     const labelColor = confirmed ? '#4ade80' : '#888';
+    const oneWayNote = isOneWay ? '<div style="font-size:11px;color:#f87171;margin-top:4px;">⚠️ One-way route — going the other direction requires a detour</div>' : '';
     res.innerHTML = `<div style="padding:16px 20px;border-radius:12px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;gap:16px;margin-top:4px;">
-      <span style="font-size:44px;font-weight:800;color:${color};line-height:1;">${mins}<span style="font-size:20px;">m</span></span>
+      <span style="font-size:44px;font-weight:800;color:${color};line-height:1;">${display}</span>
       <div>
         <div style="font-size:14px;font-weight:700;color:var(--text);">${from} → ${to}</div>
         <div style="font-size:12px;color:${labelColor};margin-top:4px;">${label}</div>
+        ${oneWayNote}
       </div>
     </div>
     <style>
