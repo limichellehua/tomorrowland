@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tomorrowland 2026 W1 Planner</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #1a1a1a; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 16px; }
+.hdr { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+.hdr-title { font-size: 22px; font-weight: 600; letter-spacing: 0.02em; }
+.hdr-sub { font-size: 13px; color: #777; }
+.tabs { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+.tab { font-size: 12px; padding: 5px 14px; border-radius: 20px; border: 1px solid #ddd; background: #f5f5f5; color: #666; cursor: pointer; transition: all 0.15s; }
+.tab:hover { background: #eee; }
+.tab.active { background: #fff; color: #1a1a1a; font-weight: 600; border-color: #999; }
+.controls { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; align-items: center; }
+.controls input { font-size: 13px; padding: 6px 12px; border-radius: 8px; border: 1px solid #ddd; background: #fff; color: #1a1a1a; flex: 1; min-width: 160px; outline: none; }
+.controls input:focus { border-color: #999; }
+.vibe-btns { display: flex; gap: 5px; flex-wrap: wrap; }
+.vibe-btn { font-size: 11px; padding: 4px 11px; border-radius: 20px; border: 1px solid transparent; cursor: pointer; font-weight: 500; transition: opacity 0.15s; }
+.vibe-btn:not(.active) { opacity: 0.5; }
+.vibe-btn.active { opacity: 1; }
+.outer { overflow-x: auto; }
+.grid-wrap { display: flex; }
+.time-col { width: 46px; flex-shrink: 0; padding-top: 34px; }
+.time-tick { height: 64px; display: flex; align-items: flex-start; justify-content: flex-end; padding-right: 8px; font-size: 10px; color: #999; font-weight: 500; }
+.stages-area { flex: 1; display: flex; flex-direction: column; }
+.stage-headers { display: flex; border-bottom: 1px solid #eee; }
+.stage-hdr { font-size: 10px; font-weight: 600; color: #666; text-align: center; padding: 6px 3px; line-height: 1.3; text-transform: uppercase; letter-spacing: 0.03em; }
+.grid-body { position: relative; }
+.hour-line { position: absolute; left: 0; right: 0; border-bottom: 1px solid #f0f0f0; }
+.col-div { position: absolute; top: 0; bottom: 0; border-left: 1px solid #f0f0f0; }
+.act { position: absolute; border-radius: 5px; padding: 4px 6px; overflow: hidden; cursor: pointer; transition: opacity 0.12s, transform 0.1s; user-select: none; }
+.act:hover { transform: scale(1.03); z-index: 10; }
+.act.fav { outline: 2px solid #1a1a1a; outline-offset: -2px; z-index: 5; }
+.act.dimmed { opacity: 0.08; pointer-events: none; }
+.act-name { font-size: 11px; font-weight: 600; line-height: 1.25; }
+.act-time { font-size: 9px; opacity: 0.65; margin-top: 2px; }
+.act-heart { position: absolute; top: 3px; right: 4px; font-size: 11px; opacity: 0; transition: opacity 0.1s; }
+.act.fav .act-heart { opacity: 1; }
+.act:hover .act-heart { opacity: 0.5; }
+.my-sched { padding: 1rem 0; }
+.sched-empty { font-size: 13px; color: #888; padding: 1rem 0; }
+.sched-list { display: flex; flex-direction: column; gap: 6px; }
+.sched-day-title { font-size: 14px; font-weight: 600; margin: 14px 0 8px; }
+.sched-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; border: 1px solid #eee; background: #fff; cursor: pointer; transition: background 0.1s; }
+.sched-item:hover { background: #fafafa; }
+.si-time { font-size: 11px; color: #888; min-width: 100px; }
+.si-name { font-size: 13px; font-weight: 600; flex: 1; }
+.si-stage { font-size: 11px; color: #888; }
+.clash-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; background: #fff0f0; color: #c0392b; font-weight: 600; }
+.fav-count { font-size: 11px; color: #888; margin-left: 3px; }
+.tba-msg { padding: 2rem 0; color: #888; font-size: 13px; }
+.tba-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.tba-pill { font-size: 11px; font-weight: 600; padding: 5px 11px; border-radius: 20px; }
+
+@media (prefers-color-scheme: dark) {
+  body { background: #111; color: #f0f0f0; }
+  .tab { background: #222; border-color: #444; color: #aaa; }
+  .tab:hover { background: #2a2a2a; }
+  .tab.active { background: #333; color: #f0f0f0; border-color: #777; }
+  .controls input { background: #222; border-color: #444; color: #f0f0f0; }
+  .controls input:focus { border-color: #888; }
+  .stage-hdr { color: #aaa; }
+  .hour-line { border-color: #222; }
+  .col-div { border-color: #222; }
+  .stage-headers { border-color: #333; }
+  .act.fav { outline-color: #f0f0f0; }
+  .sched-item { border-color: #333; background: #1a1a1a; }
+  .sched-item:hover { background: #222; }
+  .si-time, .si-stage, .fav-count { color: #aaa; }
+  .clash-badge { background: #3a1a1a; color: #e74c3c; }
+  .time-tick { color: #666; }
+  .sched-empty, .tba-msg { color: #777; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr">
+    <span class="hdr-title">Tomorrowland 2026 — W1</span>
+    <span class="hdr-sub">Tap acts to save · Jul 17–19 · Boom, Belgium</span>
+  </div>
+
+  <div class="tabs" id="maintabs">
+    <button class="tab active" onclick="switchTab('grid')">Timetable</button>
+    <button class="tab" onclick="switchTab('mysched')">My schedule <span class="fav-count" id="favcnt"></span></button>
+  </div>
+
+  <div id="grid-view">
+    <div class="tabs" id="daytabs"></div>
+    <div class="controls">
+      <input type="text" id="search" placeholder="Search artist...">
+      <div class="vibe-btns" id="vibebtns"></div>
+    </div>
+    <div class="outer" id="outer"></div>
+  </div>
+
+  <div id="mysched-view" style="display:none;">
+    <div class="my-sched" id="myschedcontent"></div>
+  </div>
+</div>
+
+<script>
+const PX = 64, SH = 12, EH = 25;
+
+const stageList = [
+  "Mainstage","Freedom by Bud","Rose Garden","Elixir","Cage","The Rave Cave",
+  "Planaxis","Melodia by Corona","Celestia by Kucoin","Atmosphere","Core",
+  "Crystal Garden","The Great Library","Moosebar","House Of Fortune by JBL"
+];
+
+const stageBg = [
+  ["#dbeafe","#1e3a8a"],["#dcfce7","#14532d"],["#fef3c7","#78350f"],["#fce7f3","#831843"],
+  ["#ede9fe","#3b0764"],["#d1fae5","#064e3b"],["#ffedd5","#7c2d12"],["#f1f5f9","#334155"],
+  ["#dbeafe","#1e40af"],["#dcfce7","#166534"],["#fef3c7","#92400e"],["#fce7f3","#9d174d"],
+  ["#ede9fe","#4c1d95"],["#ffedd5","#7c2d12"],["#d1fae5","#065f46"]
+];
+
+const vibeColors = {
+  "Mainstage EDM": ["#dbeafe","#1e3a8a"],
+  "Techno / Dark": ["#ede9fe","#3b0764"],
+  "Melodic / Deep": ["#d1fae5","#064e3b"],
+  "House": ["#fef3c7","#78350f"],
+  "D&B / Bass": ["#fce7f3","#831843"]
+};
+
+const fri = [
+  {s:"Mainstage",n:"Discovery",a:12,b:14,v:["Mainstage EDM"]},
+  {s:"Mainstage",n:"Vintage Culture",a:14,b:15.5,v:["Mainstage EDM"]},
+  {s:"Mainstage",n:"Disco Lines",a:15.5,b:16.5,v:["Mainstage EDM"]},
+  {s:"Mainstage",n:"Bassjackers",a:16.5,b:17.5,v:["Mainstage EDM"]},
+  {s:"Mainstage",n:"Henri PFR",a:17.583,b:18.583,v:["Mainstage EDM"]},
+  {s:"Mainstage",n:"NERVO",a:18.667,b:19.667,v:["Mainstage EDM"]},
+  {s:"Mainstage",n:"Marlon Hoffstadt",a:19.667,b:20.667,v:["Mainstage EDM"]},
+  {s:"Mainstage",n:"NOVAH",a:20.667,b:21.667,v:["Mainstage EDM","Techno / Dark"]},
+  {s:"Mainstage",n:"The Chainsmokers",a:21.75,b:22.75,v:["Mainstage EDM"]},
+  {s:"Mainstage",n:"Sebastian Ingrosso",a:22.833,b:23.833,v:["Mainstage EDM"]},
+  {s:"Mainstage",n:"Martin Garrix",a:23.833,b:24.833,v:["Mainstage EDM"]},
+  {s:"Freedom by Bud",n:"Semsei",a:12,b:13.5,v:[]},
+  {s:"Freedom by Bud",n:"Jessabel",a:13.5,b:15,v:[]},
+  {s:"Freedom by Bud",n:"Rose Ringed",a:15,b:16.5,v:[]},
+  {s:"Freedom by Bud",n:"Frank Verstraeten",a:16.5,b:18,v:["House"]},
+  {s:"Freedom by Bud",n:"Max Styler",a:18,b:19.5,v:["House"]},
+  {s:"Freedom by Bud",n:"Miss Monique",a:19.5,b:21,v:["Melodic / Deep"]},
+  {s:"Freedom by Bud",n:"Mind Against",a:21,b:22.5,v:["Techno / Dark"]},
+  {s:"Freedom by Bud",n:"4444 of a Kind",a:22.5,b:23.5,v:[]},
+  {s:"Freedom by Bud",n:"Holy Priest",a:23.5,b:24.5,v:[]},
+  {s:"Rose Garden",n:"MAELIEN",a:13.333,b:14.5,v:[]},
+  {s:"Rose Garden",n:"Anton Invicta",a:14.5,b:16,v:[]},
+  {s:"Rose Garden",n:"STOOG3S",a:16,b:17,v:[]},
+  {s:"Rose Garden",n:"Blooom b2b Sudley",a:17,b:18,v:[]},
+  {s:"Rose Garden",n:"Primate",a:18,b:19,v:[]},
+  {s:"Rose Garden",n:"ÆON:MODE",a:19,b:20,v:["Melodic / Deep"]},
+  {s:"Rose Garden",n:"Murdock",a:20,b:21,v:["D&B / Bass"]},
+  {s:"Rose Garden",n:"A Little Sound",a:21,b:22,v:[]},
+  {s:"Rose Garden",n:"Kanine",a:22,b:23,v:[]},
+  {s:"Rose Garden",n:"Alison Wonderland",a:23,b:24,v:["D&B / Bass"]},
+  {s:"Rose Garden",n:"Camo & Krooked",a:24,b:25,v:["D&B / Bass"]},
+  {s:"Elixir",n:"Monsieur",a:13,b:14.5,v:[]},
+  {s:"Elixir",n:"High Grade Sound",a:14.5,b:16,v:[]},
+  {s:"Elixir",n:"DJ Milinguap",a:16,b:17,v:[]},
+  {s:"Elixir",n:"Soul Shakers",a:17,b:18,v:[]},
+  {s:"Elixir",n:"Flavour Drop",a:18,b:19.5,v:[]},
+  {s:"Elixir",n:"Tola OG",a:19.5,b:20.5,v:[]},
+  {s:"Elixir",n:"None Van Bremen",a:20.5,b:21.5,v:[]},
+  {s:"Elixir",n:"Unregular",a:21.5,b:22.5,v:[]},
+  {s:"Elixir",n:"Audiowave",a:22.5,b:23.5,v:[]},
+  {s:"Elixir",n:"Rick & James",a:23.5,b:25,v:[]},
+  {s:"Cage",n:"Sacha Malice",a:12,b:13,v:[]},
+  {s:"Cage",n:"RAYZEN",a:13,b:14,v:[]},
+  {s:"Cage",n:"Sandy Warez & REVENJA",a:14,b:15,v:[]},
+  {s:"Cage",n:"elMefti",a:15,b:16,v:[]},
+  {s:"Cage",n:"Lolalita & Brennt",a:16,b:17,v:[]},
+  {s:"Cage",n:"Von Bikräv",a:17,b:18,v:[]},
+  {s:"Cage",n:"Dither",a:18,b:19,v:["Techno / Dark"]},
+  {s:"Cage",n:"GPF & Dr Donk",a:19,b:20,v:[]},
+  {s:"Cage",n:"Mind Compressor",a:20,b:21,v:["Techno / Dark"]},
+  {s:"Cage",n:"LunaKorpz",a:21,b:22,v:["Techno / Dark"]},
+  {s:"Cage",n:"Vernex & NRKi",a:22,b:23,v:[]},
+  {s:"The Rave Cave",n:"Thomas Moulene",a:14.5,b:16,v:[]},
+  {s:"The Rave Cave",n:"Panda Sound",a:16,b:17,v:[]},
+  {s:"The Rave Cave",n:"Paloma",a:17,b:18.5,v:[]},
+  {s:"The Rave Cave",n:"Zuke",a:18.5,b:19.5,v:[]},
+  {s:"The Rave Cave",n:"Justin Wilkes",a:19.5,b:21,v:[]},
+  {s:"The Rave Cave",n:"Nastya Dikikh",a:21,b:22,v:["Techno / Dark"]},
+  {s:"The Rave Cave",n:"CVNTS",a:22,b:23,v:["Techno / Dark"]},
+  {s:"The Rave Cave",n:"Junkie Kid",a:23,b:24,v:["D&B / Bass"]},
+  {s:"Planaxis",n:"CyBorg18",a:12,b:13,v:[]},
+  {s:"Planaxis",n:"Yannick Thiry",a:13,b:14,v:[]},
+  {s:"Planaxis",n:"Trip-Tamine",a:14,b:15,v:[]},
+  {s:"Planaxis",n:"John 00 Fleming",a:15,b:16,v:[]},
+  {s:"Planaxis",n:"Firaga",a:16,b:17,v:[]},
+  {s:"Planaxis",n:"Somnia",a:17,b:18,v:["Melodic / Deep"]},
+  {s:"Planaxis",n:"Hi Profile",a:18,b:19,v:[]},
+  {s:"Planaxis",n:"Fabio Fusco",a:19,b:20,v:[]},
+  {s:"Planaxis",n:"Neelix",a:20,b:21.5,v:[]},
+  {s:"Planaxis",n:"Omiki",a:21.5,b:22.5,v:[]},
+  {s:"Planaxis",n:"Mad Maxx",a:22.5,b:24,v:["D&B / Bass"]},
+  {s:"Melodia by Corona",n:"Isa Roos",a:12,b:13.5,v:[]},
+  {s:"Melodia by Corona",n:"Lerato Tsotesi",a:13.5,b:15,v:["Melodic / Deep"]},
+  {s:"Melodia by Corona",n:"Rosey Gold",a:15,b:16.5,v:[]},
+  {s:"Melodia by Corona",n:"Thakzin",a:16.5,b:18,v:[]},
+  {s:"Melodia by Corona",n:"Danni Gato",a:18,b:19,v:[]},
+  {s:"Melodia by Corona",n:"Vanco",a:19,b:20.5,v:["Melodic / Deep"]},
+  {s:"Melodia by Corona",n:"AWEN",a:20.5,b:22,v:["Melodic / Deep"]},
+  {s:"Melodia by Corona",n:"Da Capo & Caiiro & Enoo Napa",a:22,b:24,v:["Melodic / Deep"]},
+  {s:"Celestia by Kucoin",n:"Roox",a:12,b:13,v:[]},
+  {s:"Celestia by Kucoin",n:"MRMK",a:13,b:14,v:[]},
+  {s:"Celestia by Kucoin",n:"JUNO",a:14,b:15.5,v:[]},
+  {s:"Celestia by Kucoin",n:"Rozie",a:15.5,b:17,v:["Melodic / Deep"]},
+  {s:"Celestia by Kucoin",n:"Diffrent",a:17,b:18.5,v:["Melodic / Deep"]},
+  {s:"Celestia by Kucoin",n:"MPH",a:18.5,b:20,v:["Melodic / Deep"]},
+  {s:"Celestia by Kucoin",n:"Olive Anguz",a:20,b:21.5,v:["Melodic / Deep"]},
+  {s:"Celestia by Kucoin",n:"BENNETT",a:21.5,b:23,v:["Melodic / Deep"]},
+  {s:"Atmosphere",n:"Bisoux",a:12,b:14,v:[]},
+  {s:"Atmosphere",n:"ROW1",a:14,b:15.5,v:["Techno / Dark"]},
+  {s:"Atmosphere",n:"PETERBLUE",a:15.5,b:17,v:["Techno / Dark"]},
+  {s:"Atmosphere",n:"sim0ne b2b Southstar",a:17,b:18.5,v:["Techno / Dark"]},
+  {s:"Atmosphere",n:"KUKO",a:18.5,b:20,v:["Techno / Dark"]},
+  {s:"Atmosphere",n:"MANDY & Negitiv",a:20,b:21.5,v:["Techno / Dark"]},
+  {s:"Atmosphere",n:"Nico Moreno",a:21.5,b:23,v:["Techno / Dark"]},
+  {s:"Atmosphere",n:"Sara Landry",a:23,b:24.917,v:["Techno / Dark"]},
+  {s:"Core",n:"Eileen",a:12,b:14,v:[]},
+  {s:"Core",n:"Kenny Montana & John Noseda",a:14,b:17,v:[]},
+  {s:"Core",n:"Bibi Seck",a:17,b:19,v:["House"]},
+  {s:"Core",n:"Sally C",a:19,b:21,v:["House"]},
+  {s:"Core",n:"Sasha & Young Marco",a:21,b:23,v:["Techno / Dark"]},
+  {s:"Core",n:"Modeselektor",a:23,b:24.833,v:["House"]},
+  {s:"Crystal Garden",n:"DJORA",a:12,b:13.5,v:[]},
+  {s:"Crystal Garden",n:"Eridu",a:13.5,b:15,v:["Melodic / Deep"]},
+  {s:"Crystal Garden",n:"Marsolo",a:15,b:16.5,v:["Melodic / Deep"]},
+  {s:"Crystal Garden",n:"Camila Jun",a:16.5,b:18,v:["Melodic / Deep"]},
+  {s:"Crystal Garden",n:"More TBA",a:18,b:19.5,v:[]},
+  {s:"Crystal Garden",n:"BLOND:ISH",a:19.5,b:21,v:["Melodic / Deep"]},
+  {s:"Crystal Garden",n:"KETTAMA & Michael Bibi",a:21,b:23,v:["Techno / Dark"]},
+  {s:"Crystal Garden",n:"Franky Rizardo",a:23,b:24.5,v:["Melodic / Deep"]},
+  {s:"The Great Library",n:"MagiK",a:12,b:13,v:[]},
+  {s:"The Great Library",n:"Manuals",a:13,b:14,v:[]},
+  {s:"The Great Library",n:"Tomas Grey",a:14,b:15,v:[]},
+  {s:"The Great Library",n:"DJ Sally",a:15,b:16,v:[]},
+  {s:"The Great Library",n:"Whisnu Santika",a:16,b:17,v:[]},
+  {s:"The Great Library",n:"Mike Williams",a:17,b:18,v:["House"]},
+  {s:"The Great Library",n:"Sam Feldt",a:18,b:19,v:["House"]},
+  {s:"The Great Library",n:"Da Tweekaz",a:19,b:20,v:["House"]},
+  {s:"The Great Library",n:"Ofenbach",a:20,b:21,v:["House"]},
+  {s:"The Great Library",n:"R3HAB",a:21,b:22,v:["House"]},
+  {s:"The Great Library",n:"ARTBAT",a:22,b:23,v:["Techno / Dark","D&B / Bass"]},
+  {s:"The Great Library",n:"Nicky Romero",a:23,b:24,v:["House"]},
+  {s:"The Great Library",n:"Hardwell & Sub Zero Project",a:24,b:24.917,v:["D&B / Bass"]},
+  {s:"Moosebar",n:"Rino",a:16,b:19,v:[]},
+  {s:"Moosebar",n:"Wilbert Pigmans",a:19,b:20,v:[]},
+  {s:"Moosebar",n:"Funktastix",a:20,b:24,v:[]},
+  {s:"House Of Fortune by JBL",n:"Fran Ares",a:14,b:15,v:[]},
+  {s:"House Of Fortune by JBL",n:"Lucca van Damme",a:15,b:16,v:[]},
+  {s:"House Of Fortune by JBL",n:"Stadiumx",a:16,b:17,v:[]},
+  {s:"House Of Fortune by JBL",n:"Amber Broos",a:17,b:18,v:[]},
+  {s:"House Of Fortune by JBL",n:"Conrad Taylor",a:18,b:19,v:[]},
+  {s:"House Of Fortune by JBL",n:"Nicky Romero",a:19,b:20,v:["House"]},
+  {s:"House Of Fortune by JBL",n:"Mike Williams",a:20,b:21,v:["House"]},
+  {s:"House Of Fortune by JBL",n:"Gravagerz",a:21,b:22,v:[]},
+];
+
+const satArtists = ["David Guetta","FISHER","Dimitri Vegas & Like Mike","Boris Brejcha","Maddix","Armin van Buuren","MEDUZA","Steve Aoki","Ian Asher","Marnik","DVBBS","Bassjackers","Steve Angello","Vieze Asbak","Reinier Zonneveld","Lost Frequencies","Jazzy","John Newman"];
+const sunArtists = ["Calvin Harris","James Hype","Alok","Afrojack","John Summit","Amelie Lens","Indira Paganotto","Alan Walker","Alesso","Kölsch","Gorgon City","Illenium","Fisher","Chase & Status","Netsky"];
+
+const allDays = {"Fri Jul 17": fri, "Sat Jul 18": null, "Sun Jul 19": null};
+const dayKeys = ["Fri Jul 17","Sat Jul 18","Sun Jul 19"];
+
+let currentDay = "Fri Jul 17";
+let activeVibe = null;
+let favorites = new Set();
+let currentTab = 'grid';
+
+function fmt12(h) {
+  const r = h % 24, ap = r >= 12 ? 'pm' : 'am', hr = r % 12 || 12;
+  const m = Math.round((h % 1) * 60);
+  return hr + (m ? ':' + m.toString().padStart(2,'0') : '') + ap;
+}
+
+function favKey(act) { return act.n + '|' + act.s + '|' + act.a; }
+
+function saveFavs() {
+  try { localStorage.setItem('tml26_favs', JSON.stringify([...favorites])); } catch(e) {}
+}
+
+function loadFavs() {
+  try {
+    const d = localStorage.getItem('tml26_favs');
+    if(d) favorites = new Set(JSON.parse(d));
+  } catch(e) {}
+}
+
+function switchTab(t) {
+  currentTab = t;
+  document.getElementById('grid-view').style.display = t === 'grid' ? '' : 'none';
+  document.getElementById('mysched-view').style.display = t === 'mysched' ? '' : 'none';
+  document.querySelectorAll('#maintabs .tab').forEach((b,i) => {
+    b.classList.toggle('active', (i===0&&t==='grid')||(i===1&&t==='mysched'));
+  });
+  if(t === 'mysched') renderMySchedule();
+}
+
+function renderMySchedule() {
+  const el = document.getElementById('myschedcontent');
+  el.innerHTML = '';
+  if(favorites.size === 0) {
+    el.innerHTML = '<p class="sched-empty">Tap acts on the timetable to save them here. Your picks are saved to this browser.</p>';
+    return;
+  }
+  const byDay = {};
+  dayKeys.forEach(d => byDay[d] = []);
+  favorites.forEach(k => {
+    const parts = k.split('|');
+    const n = parts[0], s = parts[1], a = parseFloat(parts[2]);
+    const day = dayKeys.find(d => allDays[d] && allDays[d].find(x => x.n===n && x.s===s && x.a===a));
+    if(day) {
+      const act = allDays[day].find(x => x.n===n && x.s===s && x.a===a);
+      if(act) byDay[day].push(act);
+    }
+  });
+
+  dayKeys.forEach(d => {
+    const acts = byDay[d].sort((a,b) => a.a - b.a);
+    if(!acts.length) return;
+    const h = document.createElement('div');
+    h.className = 'sched-day-title';
+    h.textContent = d;
+    el.appendChild(h);
+    const list = document.createElement('div');
+    list.className = 'sched-list';
+    acts.forEach((act, i) => {
+      const clash = acts.some((b, j) => j !== i && b.a < act.b && b.b > act.a);
+      const si = stageList.indexOf(act.s);
+      const [bg, fg] = stageBg[si % stageBg.length];
+      const item = document.createElement('div');
+      item.className = 'sched-item';
+      item.style.borderLeft = `3px solid ${fg}`;
+      item.innerHTML = `<span class="si-time">${fmt12(act.a)}–${fmt12(act.b)}</span><span class="si-name">${act.n}</span><span class="si-stage">${act.s}</span>${clash ? '<span class="clash-badge">clash</span>' : ''}`;
+      item.title = 'Tap to remove';
+      item.onclick = () => { favorites.delete(favKey(act)); saveFavs(); updateFavCount(); renderMySchedule(); };
+      list.appendChild(item);
+    });
+    el.appendChild(list);
+  });
+
+  const note = document.createElement('p');
+  note.style.cssText = 'font-size:11px;color:#999;margin-top:12px;';
+  note.textContent = 'Tap an item to remove it. Favorites are saved in your browser.';
+  el.appendChild(note);
+}
+
+function updateFavCount() {
+  document.getElementById('favcnt').textContent = favorites.size ? `(${favorites.size})` : '';
+}
+
+function buildDayTabs() {
+  const el = document.getElementById('daytabs');
+  el.innerHTML = '';
+  dayKeys.forEach(d => {
+    const b = document.createElement('button');
+    b.className = 'tab' + (d === currentDay ? ' active' : '');
+    b.textContent = d;
+    b.onclick = () => { currentDay = d; renderGrid(); };
+    el.appendChild(b);
+  });
+}
+
+function buildVibeFilter() {
+  const el = document.getElementById('vibebtns');
+  el.innerHTML = '';
+  Object.entries(vibeColors).forEach(([v, [bg, fg]]) => {
+    const b = document.createElement('button');
+    b.className = 'vibe-btn' + (activeVibe === v ? ' active' : '');
+    b.style.cssText = `background:${bg};color:${fg};border-color:${fg};`;
+    b.textContent = v;
+    b.onclick = () => { activeVibe = activeVibe === v ? null : v; buildVibeFilter(); renderGrid(); };
+    el.appendChild(b);
+  });
+}
+
+function renderGrid() {
+  buildDayTabs();
+  const search = document.getElementById('search').value.toLowerCase().trim();
+  const outer = document.getElementById('outer');
+  outer.innerHTML = '';
+  const acts = allDays[currentDay];
+
+  if(!acts) {
+    const tbaList = currentDay === "Sat Jul 18" ? satArtists : sunArtists;
+    const div = document.createElement('div');
+    div.className = 'tba-msg';
+    div.innerHTML = '<strong style="display:block;margin-bottom:6px;color:#1a1a1a;">Set times not yet announced</strong>Confirmed artists for this day:';
+    const pills = document.createElement('div');
+    pills.className = 'tba-pills';
+    const shown = search ? tbaList.filter(n => n.toLowerCase().includes(search)) : tbaList;
+    shown.forEach((n, i) => {
+      const [bg, fg] = stageBg[i % stageBg.length];
+      const p = document.createElement('span');
+      p.className = 'tba-pill';
+      p.style.cssText = `background:${bg};color:${fg};`;
+      p.textContent = n;
+      pills.appendChild(p);
+    });
+    div.appendChild(pills);
+    outer.appendChild(div);
+    return;
+  }
+
+  const SW = Math.max(70, Math.floor(window.innerWidth > 900 ? 780 / stageList.length : 80));
+  const gridH = (EH - SH) * PX;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'grid-wrap';
+  wrap.style.minWidth = (46 + stageList.length * SW) + 'px';
+
+  const tc = document.createElement('div');
+  tc.className = 'time-col';
+  for(let h = SH; h <= EH; h++) {
+    const t = document.createElement('div');
+    t.className = 'time-tick';
+    t.textContent = fmt12(h);
+    tc.appendChild(t);
+  }
+  wrap.appendChild(tc);
+
+  const sa = document.createElement('div');
+  sa.className = 'stages-area';
+  const hdrs = document.createElement('div');
+  hdrs.className = 'stage-headers';
+  stageList.forEach(s => {
+    const h = document.createElement('div');
+    h.className = 'stage-hdr';
+    h.style.width = SW + 'px';
+    h.textContent = s;
+    hdrs.appendChild(h);
+  });
+  sa.appendChild(hdrs);
+
+  const body = document.createElement('div');
+  body.className = 'grid-body';
+  body.style.height = gridH + 'px';
+
+  for(let h = 0; h < EH - SH; h++) {
+    const line = document.createElement('div');
+    line.className = 'hour-line';
+    line.style.top = (h * PX) + 'px';
+    body.appendChild(line);
+  }
+
+  stageList.forEach((stage, si) => {
+    const div = document.createElement('div');
+    div.className = 'col-div';
+    div.style.left = (si * SW) + 'px';
+    body.appendChild(div);
+
+    const [bg, fg] = stageBg[si];
+    acts.filter(a => a.s === stage).forEach(act => {
+      const top = (act.a - SH) * PX;
+      const h = Math.max(22, (act.b - act.a) * PX - 2);
+      const isFav = favorites.has(favKey(act));
+      const inSearch = search ? act.n.toLowerCase().includes(search) : true;
+      const inVibe = activeVibe ? act.v.includes(activeVibe) : true;
+      const show = inSearch && inVibe;
+
+      const el = document.createElement('div');
+      el.className = 'act' + (isFav ? ' fav' : '') + (!show ? ' dimmed' : '');
+      el.style.cssText = `top:${top}px;height:${h}px;left:${si*SW+2}px;width:${SW-4}px;background:${bg};color:${fg};`;
+
+      const nm = document.createElement('div');
+      nm.className = 'act-name';
+      nm.textContent = act.n;
+      el.appendChild(nm);
+
+      if(h > 36) {
+        const tm = document.createElement('div');
+        tm.className = 'act-time';
+        tm.textContent = fmt12(act.a) + '–' + fmt12(act.b);
+        el.appendChild(tm);
+      }
+
+      const heart = document.createElement('div');
+      heart.className = 'act-heart';
+      heart.textContent = isFav ? '♥' : '♡';
+      el.appendChild(heart);
+
+      el.onclick = () => {
+        const k = favKey(act);
+        if(favorites.has(k)) favorites.delete(k);
+        else favorites.add(k);
+        saveFavs(); updateFavCount(); renderGrid();
+      };
+
+      body.appendChild(el);
+    });
+  });
+
+  sa.appendChild(body);
+  wrap.appendChild(sa);
+  outer.appendChild(wrap);
+}
+
+document.getElementById('search').addEventListener('input', renderGrid);
+
+loadFavs();
+updateFavCount();
+buildVibeFilter();
+renderGrid();
+</script>
+</body>
+</html>
