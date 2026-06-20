@@ -6,7 +6,64 @@
 <title>Tomorrowland 2026 W1 Planner</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #f0f0f0; min-height: 100vh; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #f0f0f0; min-height: 100vh; transition: background 0.2s, color 0.2s; }
+body.light { background: #f5f5f5; color: #1a1a1a; }
+body.light .onboard-overlay { background: #f5f5f5; }
+body.light .onboard-card { background: #fff; border-color: #e0e0e0; }
+body.light .onboard-input { background: #f5f5f5; border-color: #ddd; color: #1a1a1a; }
+body.light .onboard-input:focus { border-color: #999; }
+body.light .onboard-label { color: #999; }
+body.light .onboard-sub { color: #999; }
+body.light .onboard-btn { background: #1a1a1a; color: #fff; }
+body.light .color-opt.selected { border-color: #1a1a1a; }
+body.light .app-title { color: #1a1a1a; }
+body.light .user-badge { background: #fff; border-color: #ddd; color: #1a1a1a; }
+body.light .switch-btn { color: #999; }
+body.light .whos-going-title { color: #aaa; }
+body.light .attendee-pill { background: #fff; border-color: #ddd; color: #1a1a1a; }
+body.light .tab { background: #fff; border-color: #ddd; color: #aaa; }
+body.light .tab:hover { background: #f0f0f0; }
+body.light .tab.active { background: #f0f0f0; color: #1a1a1a; border-color: #bbb; }
+body.light .controls input { background: #fff; border-color: #ddd; color: #1a1a1a; }
+body.light .time-tick { color: #bbb; }
+body.light .stage-hdr { color: #bbb; }
+body.light .stage-headers { border-color: #e0e0e0; }
+body.light .hour-line { border-color: #efefef; }
+body.light .col-div { border-color: #efefef; }
+body.light .sched-day-title { color: #bbb; }
+body.light .sched-empty { color: #bbb; }
+body.light .sched-note { color: #bbb; }
+body.light .mini-acts-col { border-color: #e0e0e0; }
+body.light .mini-hour-line { border-color: #efefef; }
+body.light .mini-time-tick { color: #bbb; }
+body.light .transition-pill-ok { background: #e8faf0; color: #1a7a45; }
+body.light .transition-pill-tight { background: #fffae8; color: #7a5c1a; }
+body.light .transition-pill-clash { background: #fae8e8; color: #7a1a1a; }
+body.light .wl-act { border-color: #efefef; }
+body.light .wl-name { color: #1a1a1a; }
+body.light .wl-stage { color: #aaa; }
+body.light .wl-time { color: #bbb; }
+body.light .wl-person span { color: #1a1a1a; }
+body.light .wl-section-title { color: #bbb; }
+body.light .walk-grid { border-color: #e0e0e0; }
+body.light .walk-row { border-color: #efefef; color: #1a1a1a; }
+body.light .walk-header { background: #f5f5f5; color: #bbb; }
+body.light .walk-divider { background: #f5f5f5; color: #bbb; }
+body.light .info-title { color: #1a1a1a; }
+body.light .info-sub { color: #aaa; }
+body.light .info-card-ok { background: #e8faf0; border-color: #b8e8cc; }
+body.light .info-card-tight { background: #fffae8; border-color: #e8d8a0; }
+body.light .info-card-clash { background: #fae8e8; border-color: #e8b8b8; }
+body.light .info-card-ok .info-card-icon, body.light .info-card-ok .info-card-label { color: #1a7a45; }
+body.light .info-card-tight .info-card-icon, body.light .info-card-tight .info-card-label { color: #7a5c1a; }
+body.light .info-card-clash .info-card-icon, body.light .info-card-clash .info-card-label { color: #7a1a1a; }
+body.light .info-card-desc { color: #666; }
+body.light .info-note { color: #aaa; }
+body.light .map-note { color: #aaa; }
+body.light .tba-msg { color: #aaa; }
+body.light .sched-day-title { color: #bbb; }
+.theme-toggle { background: none; border: 1px solid #2a2a2a; border-radius: 20px; padding: 5px 10px; font-size: 14px; cursor: pointer; transition: border-color 0.15s; }
+body.light .theme-toggle { border-color: #ddd; }
 .onboard-overlay { position: fixed; inset: 0; background: #0a0a0a; display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
 .onboard-card { background: #141414; border: 1px solid #2a2a2a; border-radius: 16px; padding: 40px 36px; max-width: 420px; width: 100%; }
 .onboard-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
@@ -36,9 +93,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .attendee-avatar { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
 .attendee-count { font-size: 10px; opacity: 0.5; font-weight: 400; }
 .tabs { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
-.tab { font-size: 12px; padding: 6px 16px; border-radius: 20px; border: 1px solid #2a2a2a; background: #141414; color: #888; cursor: pointer; transition: all 0.15s; }
-.tab:hover { background: #1a1a1a; }
-.tab.active { background: #1a1a1a; color: #f0f0f0; font-weight: 600; border-color: #555; }
+.tab { font-size: 12px; padding: 7px 16px; border-radius: 24px; border: 1px solid #2a2a2a; background: #141414; color: #888; cursor: pointer; transition: all 0.15s; }
+.tab:hover { background: #1a1a1a; color: #bbb; }
+.tab.active { background: #2a2a2a; color: #f0f0f0; font-weight: 600; border-color: #444; }
 .controls { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; }
 .controls input { font-size: 13px; padding: 7px 12px; border-radius: 8px; border: 1px solid #2a2a2a; background: #141414; color: #f0f0f0; width: 220px; outline: none; }
 .controls input:focus { border-color: #555; }
@@ -119,6 +176,59 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .info-card-label { font-size: 13px; font-weight: 700; }
 .info-card-desc { font-size: 11px; color: #888; line-height: 1.4; }
 .info-note { font-size: 11px; color: #555; }
+.walk-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.walk-table th { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #555; padding: 6px 10px; border-bottom: 1px solid #2a2a2a; text-align: left; }
+.walk-table td { padding: 7px 10px; border-bottom: 1px solid #1a1a1a; }
+body.light .walk-table th { color: #aaa; border-color: #ddd; }
+body.light .walk-table td { color: #1a1a1a; }
+body.light .walk-table tr:hover td { background: #f5f5f5; }
+.walk-table tr:hover td { background: #1a1a1a; }
+.wt-confirmed { color: #4ade80; font-weight: 700; font-size: 11px; }
+.wt-estimated { color: #888; font-size: 11px; }
+.wt-time-green { color: #4ade80; font-weight: 700; }
+.wt-time-yellow { color: #fbbf24; font-weight: 700; }
+.wt-time-orange { color: #fb923c; font-weight: 700; }
+.wt-time-red { color: #f87171; font-weight: 700; }
+body.light .wt-time-green { color: #1a7a45; }
+body.light .wt-time-yellow { color: #7a5c1a; }
+body.light .wt-time-orange { color: #7a3a10; }
+body.light .wt-time-red { color: #7a1a1a; }
+.walk-hub { background: #141414; border-radius: 12px; padding: 20px; margin-bottom: 12px; }
+body.light .walk-hub { background: #f0f0f0; }
+.hub-center { display: inline-block; background: #f0f0f0; color: #0a0a0a; font-size: 13px; font-weight: 800; padding: 8px 16px; border-radius: 20px; margin-bottom: 16px; }
+body.light .hub-center { background: #1a1a1a; color: #f0f0f0; }
+.hub-spokes { display: flex; flex-direction: column; gap: 8px; }
+.spoke { display: flex; align-items: center; gap: 0; }
+.spoke-time { font-size: 11px; font-weight: 700; min-width: 52px; text-align: right; padding-right: 8px; }
+.spoke-line { height: 2px; flex-shrink: 0; border-radius: 1px; }
+.spoke-stage { font-size: 12px; font-weight: 600; padding-left: 8px; color: #f0f0f0; }
+body.light .spoke-stage { color: #1a1a1a; }
+.spoke-green .spoke-time { color: #4ade80; }
+.spoke-green .spoke-line { width: 20px; background: #4ade80; }
+.spoke-yellow .spoke-time { color: #fbbf24; }
+.spoke-yellow .spoke-line { width: 40px; background: #fbbf24; }
+.spoke-orange .spoke-time { color: #fb923c; }
+.spoke-orange .spoke-line { width: 60px; background: #fb923c; }
+.spoke-red .spoke-time { color: #f87171; }
+.spoke-red .spoke-line { width: 100px; background: #f87171; }
+.walk-also { margin-top: 4px; }
+.walk-also-title { font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+.walk-pills { display: flex; flex-direction: column; gap: 5px; }
+.walk-pill { display: flex; align-items: center; justify-content: space-between; padding: 7px 12px; border-radius: 8px; }
+.walk-pill-green { background: #0f1f0f; }
+.walk-pill-yellow { background: #1f1a0a; }
+.walk-pill-orange { background: #1f120a; }
+body.light .walk-pill-green { background: #e8faf0; }
+body.light .walk-pill-yellow { background: #fffae8; }
+body.light .walk-pill-orange { background: #fff3e8; }
+.wp-stages { font-size: 12px; font-weight: 600; }
+.walk-pill-green .wp-stages { color: #4ade80; }
+.walk-pill-yellow .wp-stages { color: #fbbf24; }
+.walk-pill-orange .wp-stages { color: #fb923c; }
+body.light .walk-pill-green .wp-stages { color: #1a7a45; }
+body.light .walk-pill-yellow .wp-stages { color: #7a5c1a; }
+body.light .walk-pill-orange .wp-stages { color: #7a3a10; }
+.wp-time { font-size: 11px; font-weight: 700; opacity: 0.7; }
 </style>
 </head>
 <body>
@@ -127,6 +237,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   <div class="onboard-card">
     <div class="onboard-title">Tomorrowland W1</div>
     <div class="onboard-sub">Jul 17–19, 2026 · Boom, Belgium</div>
+    <div id="returning-section" style="display:none;margin-bottom:24px;">
+      <div class="onboard-label">Returning?</div>
+      <div id="returning-users" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;"></div>
+      <div style="height:1px;background:#2a2a2a;margin-bottom:24px;"></div>
+    </div>
     <div class="onboard-label">Your name</div>
     <input class="onboard-input" id="ob-name" type="text" placeholder="e.g. Michelle" maxlength="30" autocomplete="off">
     <div class="onboard-label">Initials <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#666;">(shown on your dot)</span></div>
@@ -141,6 +256,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 <div class="app" id="app">
   <div class="top-bar">
     <div class="app-title">Tomorrowland 2026 — W1</div>
+    <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark">🌙</button>
     <div class="user-badge">
       <div class="user-avatar" id="user-avatar"></div>
       <span id="user-name-display"></span>
@@ -152,10 +268,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
     <div class="attendees" id="attendees"></div>
   </div>
   <div class="tabs" id="maintabs">
-    <button class="tab active" onclick="switchTab('grid')">Timetable</button>
-    <button class="tab" onclick="switchTab('mysched')">My picks <span class="fav-count" id="favcnt"></span></button>
-    <button class="tab" onclick="switchTab('wholikes')">Who likes what</button>
-    <button class="tab" onclick="switchTab('info')">Info & map</button>
+    <button class="tab active" onclick="switchTab('grid')">🗓 Timetable</button>
+    <button class="tab" onclick="switchTab('mysched')">⭐ My picks <span class="fav-count" id="favcnt"></span></button>
+    <button class="tab" onclick="switchTab('wholikes')">👀 Who likes what</button>
+    <button class="tab" onclick="switchTab('info')">🗺 Info & map</button>
   </div>
   <div id="grid-view">
     <div class="tabs" id="daytabs"></div>
@@ -168,37 +284,39 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
     <div class="info-section">
       <div class="info-title">Festival map</div>
       <div class="info-sub">Tomorrowland 2026 · Boom, Belgium</div>
+      <div style="background:#1f1a0a;border:1px solid #3a2a0a;border-radius:10px;padding:10px 14px;margin-bottom:10px;font-size:12px;color:#fbbf24;line-height:1.6;">
+        ⚠️ This map is from <strong>2025</strong>. Stage locations may have changed for 2026 — use as a rough guide only. Walk times for all stages are estimates based on this map.
+      </div>
       <img src="https://i.imgur.com/placeholder.png" id="festival-map" style="width:100%;border-radius:12px;margin-top:10px;display:none;">
       <div class="map-wrap" id="map-wrap">
-        <div class="map-note">Upload the map image to your GitHub repo as <code>map.png</code> and it will appear here.</div>
+        <div class="map-note">Add <code>map.png</code> to your GitHub repo root and it will appear here.</div>
       </div>
     </div>
 
     <div class="info-section">
       <div class="info-title">Walking times between stages</div>
-      <div class="info-sub">Based on leaving 10 min before a set ends. Used to calculate clash warnings in My Picks.</div>
-      <div class="walk-grid">
-        <div class="walk-row walk-header">
-          <span>From</span><span>To</span><span>Walk</span><span>Verdict</span>
+      <div class="info-sub">✅ = confirmed · 〜 = estimated from map position. Leave 10 min before a set ends to start walking.</div>
+
+      <div class="walk-hub">
+        <div class="hub-center">Mainstage ✅</div>
+        <div class="hub-spokes">
+          <div class="spoke spoke-green"><div class="spoke-time">5 min</div><div class="spoke-line"></div><div class="spoke-stage">House Of Fortune by JBL</div></div>
+          <div class="spoke spoke-green"><div class="spoke-time">10 min</div><div class="spoke-line"></div><div class="spoke-stage">The Great Library</div></div>
+          <div class="spoke spoke-green"><div class="spoke-time">15 min</div><div class="spoke-line"></div><div class="spoke-stage">Crystal Garden</div></div>
+          <div class="spoke spoke-green"><div class="spoke-time">15 min</div><div class="spoke-line"></div><div class="spoke-stage">Atmosphere</div></div>
+          <div class="spoke spoke-yellow"><div class="spoke-time">20 min</div><div class="spoke-line"></div><div class="spoke-stage">Core</div></div>
+          <div class="spoke spoke-yellow"><div class="spoke-time">20 min</div><div class="spoke-line"></div><div class="spoke-stage">Planaxis</div></div>
+          <div class="spoke spoke-yellow"><div class="spoke-time">25 min</div><div class="spoke-line"></div><div class="spoke-stage">Melodia by Corona</div></div>
+          <div class="spoke spoke-orange"><div class="spoke-time">30 min</div><div class="spoke-line"></div><div class="spoke-stage">Rose Garden</div></div>
+          <div class="spoke spoke-orange"><div class="spoke-time">35 min</div><div class="spoke-line"></div><div class="spoke-stage">Freedom by Bud</div></div>
+          <div class="spoke spoke-red"><div class="spoke-time">50 min</div><div class="spoke-line"></div><div class="spoke-stage">Shuttles GJ</div></div>
         </div>
-        <div class="walk-row"><span>Mainstage</span><span>House Of Fortune by JBL</span><span>5 min</span><span class="verdict-easy">Easy</span></div>
-        <div class="walk-row"><span>Mainstage</span><span>The Great Library</span><span>10 min</span><span class="verdict-easy">Easy</span></div>
-        <div class="walk-row"><span>Freedom by Bud</span><span>Rose Garden</span><span>5 min</span><span class="verdict-easy">Easy</span></div>
-        <div class="walk-row"><span>Mainstage</span><span>Crystal Garden</span><span>15 min</span><span class="verdict-easy">Easy</span></div>
-        <div class="walk-row"><span>Mainstage</span><span>Atmosphere</span><span>15 min</span><span class="verdict-easy">Easy</span></div>
-        <div class="walk-row"><span>Mainstage</span><span>Core</span><span>20 min</span><span class="verdict-ok">Moderate</span></div>
-        <div class="walk-row"><span>Mainstage</span><span>Planaxis</span><span>20 min</span><span class="verdict-ok">Moderate</span></div>
-        <div class="walk-row"><span>Mainstage</span><span>Melodia by Corona</span><span>25 min</span><span class="verdict-ok">Moderate</span></div>
-        <div class="walk-row"><span>Mainstage</span><span>Rose Garden</span><span>30 min</span><span class="verdict-tight">Long</span></div>
-        <div class="walk-row"><span>Mainstage</span><span>Freedom by Bud</span><span>35 min</span><span class="verdict-tight">Long</span></div>
-        <div class="walk-row"><span>Mainstage</span><span>Entrada 1 TML</span><span>25 min</span><span class="verdict-ok">Moderate</span></div>
-        <div class="walk-row"><span>Mainstage</span><span>Shuttles GJ</span><span>50 min</span><span class="verdict-clash">Very long</span></div>
-        <div class="walk-row walk-divider"><span colspan="4">Dreamville</span></div>
-        <div class="walk-row"><span>Entrada 1 TML</span><span>Shuttles GJ</span><span>25 min</span><span class="verdict-ok">Moderate</span></div>
-        <div class="walk-row"><span>Entrada 2 TML</span><span>Entrada DV 1</span><span>20 min</span><span class="verdict-ok">Moderate</span></div>
-        <div class="walk-row"><span>Entrada DV 1</span><span>Marketplace</span><span>15 min</span><span class="verdict-easy">Easy</span></div>
-        <div class="walk-row"><span>Entrada DV 1</span><span>Entrada DV 2</span><span>35 min</span><span class="verdict-tight">Long</span></div>
-        <div class="walk-row"><span>Entrada DV 2</span><span>Marketplace</span><span>25 min</span><span class="verdict-ok">Moderate</span></div>
+      </div>
+
+      <div class="walk-also" style="margin-top:20px;">
+        <div class="walk-also-title">All stage pairs</div>
+        <input type="text" id="walk-search" placeholder="Search stages..." style="width:100%;margin-bottom:10px;font-size:13px;padding:7px 12px;border-radius:8px;border:1px solid #2a2a2a;background:#141414;color:#f0f0f0;outline:none;">
+        <div id="walk-table-wrap"></div>
       </div>
     </div>
 
@@ -233,8 +351,13 @@ const PX = 64, SH = 12, EH = 25;
 
 const stageList = ["Mainstage","Freedom by Bud","Rose Garden","Elixir","Cage","The Rave Cave","Planaxis","Melodia by Corona","Celestia by Kucoin","Atmosphere","Core","Crystal Garden","The Great Library","Moosebar","House Of Fortune by JBL"];
 const stageBg = [["#1a2a1a","#4ade80"],["#1a1a2a","#818cf8"],["#2a1a10","#fb923c"],["#2a1020","#f472b6"],["#1e1a2a","#a78bfa"],["#0f2a1e","#34d399"],["#2a1a0f","#fb923c"],["#1e1e1e","#94a3b8"],["#0f1a2a","#60a5fa"],["#0f2a1a","#4ade80"],["#2a1e0f","#fbbf24"],["#2a0f1e","#f472b6"],["#1a0f2a","#a78bfa"],["#2a1a0f","#fb923c"],["#0f2a1a","#34d399"]];
+const stageBgLight = [["#d4f5d4","#1a6b1a"],["#d4d4f5","#2a2a8a"],["#f5e4d4","#7a3a10"],["#f5d4e8","#7a1040"],["#e8d4f5","#4a1a7a"],["#d4f0e8","#0a4a30"],["#f5e8d4","#7a3a10"],["#e8e8e8","#3a3a3a"],["#d4e8f5","#0a3a6a"],["#d4f5d4","#1a6b1a"],["#f5f0d4","#6a4a10"],["#f5d4e8","#7a1040"],["#e8d4f5","#4a1a7a"],["#f5e8d4","#7a3a10"],["#d4f0e8","#0a4a30"]];
+function getActColors(si) {
+  const isLight = document.body.classList.contains('light');
+  return isLight ? stageBgLight[si >= 0 ? si : 0] : stageBg[si >= 0 ? si : 0];
+}
 
-function t(h,m){ return h + (m||0)/60; }
+function t(h,m){ return Math.round((h + (m||0)/60) * 1000) / 1000; }
 
 const fri = [
   {s:"Mainstage",n:"Discovery",a:t(12),b:t(14)},{s:"Mainstage",n:"Vintage Culture",a:t(14),b:t(15,30)},{s:"Mainstage",n:"Disco Lines",a:t(15,30),b:t(16,30)},{s:"Mainstage",n:"Bassjackers",a:t(16,30),b:t(17,30)},{s:"Mainstage",n:"Henri PFR",a:t(17,35),b:t(18,35)},{s:"Mainstage",n:"NERVO",a:t(18,40),b:t(19,40)},{s:"Mainstage",n:"Marlon Hoffstadt",a:t(19,40),b:t(20,40)},{s:"Mainstage",n:"NOVAH",a:t(20,40),b:t(21,40)},{s:"Mainstage",n:"The Chainsmokers",a:t(21,45),b:t(22,45)},{s:"Mainstage",n:"Sebastian Ingrosso",a:t(22,50),b:t(23,50)},{s:"Mainstage",n:"Martin Garrix",a:t(23,50),b:t(24,50)},
@@ -295,9 +418,13 @@ const dayKeys = ["Fri Jul 17","Sat Jul 18","Sun Jul 19"];
 let currentDay = "Fri Jul 17", currentTab = 'grid', currentUser = null, allUsers = [];
 
 function fmt12(h) {
-  const r = h % 24, ap = r >= 12 ? 'pm' : 'am', hr = r % 12 || 12;
-  const m = Math.round((h % 1) * 60);
-  return hr + (m ? ':' + m.toString().padStart(2,'0') : '') + ap;
+  const totalMins = Math.round(h * 60);
+  const r = totalMins % (24 * 60);
+  const hrs = Math.floor(r / 60);
+  const mins = r % 60;
+  const ap = hrs >= 12 ? 'pm' : 'am';
+  const hr = hrs % 12 || 12;
+  return hr + (mins ? ':' + mins.toString().padStart(2,'0') : '') + ap;
 }
 function favKey(act) { return act.n + '|' + act.s + '|' + act.a; }
 
@@ -325,15 +452,51 @@ async function saveCurrentUser() {
 
 async function initColorGrid() {
   await loadAllUsers();
+  const nameVal = document.getElementById('ob-name').value.trim().toLowerCase();
+  const existingUser = allUsers.find(u => u.name.toLowerCase() === nameVal);
   const taken = allUsers.map(u => u.color);
+
+  // Returning users
+  const retSection = document.getElementById('returning-section');
+  const retUsers = document.getElementById('returning-users');
+  retUsers.innerHTML = '';
+  if(allUsers.length > 0) {
+    retSection.style.display = '';
+    allUsers.forEach(u => {
+      const pill = document.createElement('div');
+      pill.style.cssText = 'display:flex;align-items:center;gap:7px;padding:6px 12px 6px 6px;border-radius:20px;background:#1a1a1a;border:1px solid #2a2a2a;cursor:pointer;transition:border-color 0.15s;';
+      pill.onmouseover = () => pill.style.borderColor = '#555';
+      pill.onmouseout = () => pill.style.borderColor = '#2a2a2a';
+      const av = document.createElement('div');
+      av.style.cssText = 'width:26px;height:26px;border-radius:50%;background:' + u.color + ';display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;flex-shrink:0;';
+      av.textContent = u.initials || '?';
+      const nm = document.createElement('span');
+      nm.style.cssText = 'font-size:13px;font-weight:600;color:#f0f0f0;';
+      nm.textContent = u.name;
+      pill.appendChild(av); pill.appendChild(nm);
+      pill.onclick = () => { currentUser = u; localStorage.setItem('tml26_uid', u.id); enterApp(); };
+      retUsers.appendChild(pill);
+    });
+  } else {
+    retSection.style.display = 'none';
+  }
+
   const grid = document.getElementById('color-grid');
   grid.innerHTML = '';
   COLORS.forEach(c => {
+    const isTaken = taken.includes(c);
+    const isMyColor = existingUser && existingUser.color === c;
     const div = document.createElement('div');
-    div.className = 'color-opt' + (taken.includes(c) ? ' taken' : '');
+    div.className = 'color-opt' + (isTaken && !isMyColor ? ' taken' : '');
     div.style.background = c;
     div.dataset.color = c;
-    if(!taken.includes(c)) div.onclick = () => { document.querySelectorAll('.color-opt').forEach(x => x.classList.remove('selected')); div.classList.add('selected'); checkObReady(); };
+    if(!isTaken || isMyColor) {
+      div.onclick = () => {
+        document.querySelectorAll('.color-opt').forEach(x => x.classList.remove('selected'));
+        div.classList.add('selected');
+        checkObReady();
+      };
+    }
     grid.appendChild(div);
   });
 }
@@ -344,7 +507,7 @@ function checkObReady() {
   const color = document.querySelector('.color-opt.selected');
   document.getElementById('ob-btn').disabled = !name || !initials || !color;
 }
-document.getElementById('ob-name').addEventListener('input', checkObReady);
+document.getElementById('ob-name').addEventListener('input', () => { checkObReady(); initColorGrid(); });
 document.getElementById('ob-initials').addEventListener('input', checkObReady);
 
 async function submitOnboard() {
@@ -354,8 +517,15 @@ async function submitOnboard() {
   if(!name || !initials || !colorEl) return;
   const color = colorEl.dataset.color;
   await loadAllUsers();
-  if(allUsers.find(u => u.color === color)) { document.getElementById('ob-err').textContent = 'Color just taken! Pick another.'; initColorGrid(); return; }
-  if(allUsers.find(u => u.name.toLowerCase() === name.toLowerCase())) { document.getElementById('ob-err').textContent = 'Name already taken.'; return; }
+  if(allUsers.find(u => u.color === color && u.name.toLowerCase() !== name.toLowerCase())) { document.getElementById('ob-err').textContent = 'Color taken by someone else! Pick another.'; initColorGrid(); return; }
+  const existing = allUsers.find(u => u.name.toLowerCase() === name.toLowerCase());
+  if(existing) {
+    if(existing.color !== color) { document.getElementById('ob-err').textContent = 'Name taken — pick your original color to re-enter.'; return; }
+    // same name + same color = re-login
+    currentUser = existing;
+    localStorage.setItem('tml26_uid', currentUser.id);
+    enterApp(); return;
+  }
   const btn = document.getElementById('ob-btn');
   btn.textContent = 'Entering...'; btn.disabled = true;
   const result = await supaFetch('picks', 'POST', { name, initials, color, favorites: [] });
@@ -473,7 +643,7 @@ function renderGrid() {
 
   stageList.forEach((stage, si) => {
     const cdiv = document.createElement('div'); cdiv.className = 'col-div'; cdiv.style.left = (si * SW) + 'px'; body.appendChild(cdiv);
-    const [bg, fg] = stageBg[si];
+    const [bg, fg] = getActColors(si);
     acts.filter(a => a.s === stage).forEach(act => {
       const top = (act.a - SH) * PX;
       const h = Math.max(22, (act.b - act.a) * PX - 2);
@@ -513,12 +683,115 @@ function renderGrid() {
   updateFavCount();
 }
 
-const WALK_MIN = 10; // leave this many mins before set ends
+const WALK_MIN = 10;
 const WALK_TIMES = {
-  'Mainstage|Freedom by Bud': 35, 'Mainstage|The Great Library': 10, 'Mainstage|House Of Fortune by JBL': 5,
-  'Mainstage|Crystal Garden': 15, 'Mainstage|Atmosphere': 15, 'Mainstage|Core': 20,
-  'Mainstage|Rose Garden': 30, 'Mainstage|Melodia by Corona': 25, 'Mainstage|Planaxis': 20,
-  'Freedom by Bud|Rose Garden': 5
+  // Your confirmed times
+  'Mainstage|Freedom by Bud': 35,
+  'Mainstage|The Great Library': 10,
+  'Mainstage|House Of Fortune by JBL': 5,
+  'Mainstage|Crystal Garden': 15,
+  'Mainstage|Atmosphere': 15,
+  'Mainstage|Core': 20,
+  'Mainstage|Rose Garden': 30,
+  'Mainstage|Melodia by Corona': 25,
+  'Mainstage|Planaxis': 20,
+  'Freedom by Bud|Rose Garden': 5,
+  // Estimated from map (stages near each other on map get lower times)
+  'Mainstage|Elixir': 20,
+  'Mainstage|Cage': 25,
+  'Mainstage|The Rave Cave': 25,
+  'Mainstage|Celestia by Kucoin': 20,
+  'Mainstage|Moosebar': 15,
+  'Freedom by Bud|Elixir': 20,
+  'Freedom by Bud|Cage': 20,
+  'Freedom by Bud|The Rave Cave': 25,
+  'Freedom by Bud|Melodia by Corona': 20,
+  'Freedom by Bud|Celestia by Kucoin': 25,
+  'Freedom by Bud|Planaxis': 30,
+  'Freedom by Bud|Atmosphere': 30,
+  'Freedom by Bud|Core': 30,
+  'Freedom by Bud|Crystal Garden': 35,
+  'Freedom by Bud|The Great Library': 35,
+  'Freedom by Bud|House Of Fortune by JBL': 35,
+  'Freedom by Bud|Moosebar': 25,
+  'Rose Garden|Elixir': 15,
+  'Rose Garden|Cage': 15,
+  'Rose Garden|The Rave Cave': 20,
+  'Rose Garden|Melodia by Corona': 15,
+  'Rose Garden|Celestia by Kucoin': 20,
+  'Rose Garden|Planaxis': 25,
+  'Rose Garden|Atmosphere': 25,
+  'Rose Garden|Core': 25,
+  'Rose Garden|Crystal Garden': 30,
+  'Rose Garden|The Great Library': 30,
+  'Rose Garden|House Of Fortune by JBL': 30,
+  'Rose Garden|Moosebar': 20,
+  'Elixir|Cage': 5,
+  'Elixir|The Rave Cave': 10,
+  'Elixir|Melodia by Corona': 10,
+  'Elixir|Celestia by Kucoin': 10,
+  'Elixir|Planaxis': 15,
+  'Elixir|Atmosphere': 20,
+  'Elixir|Core': 15,
+  'Elixir|Crystal Garden': 15,
+  'Elixir|The Great Library': 15,
+  'Elixir|House Of Fortune by JBL': 15,
+  'Elixir|Moosebar': 10,
+  'Cage|The Rave Cave': 10,
+  'Cage|Melodia by Corona': 10,
+  'Cage|Celestia by Kucoin': 10,
+  'Cage|Planaxis': 15,
+  'Cage|Atmosphere': 20,
+  'Cage|Core': 15,
+  'Cage|Crystal Garden': 20,
+  'Cage|The Great Library': 20,
+  'Cage|House Of Fortune by JBL': 20,
+  'Cage|Moosebar': 10,
+  'The Rave Cave|Melodia by Corona': 10,
+  'The Rave Cave|Celestia by Kucoin': 10,
+  'The Rave Cave|Planaxis': 15,
+  'The Rave Cave|Atmosphere': 20,
+  'The Rave Cave|Core': 15,
+  'The Rave Cave|Crystal Garden': 20,
+  'The Rave Cave|The Great Library': 20,
+  'The Rave Cave|House Of Fortune by JBL': 20,
+  'The Rave Cave|Moosebar': 10,
+  'Melodia by Corona|Celestia by Kucoin': 5,
+  'Melodia by Corona|Planaxis': 10,
+  'Melodia by Corona|Atmosphere': 15,
+  'Melodia by Corona|Core': 15,
+  'Melodia by Corona|Crystal Garden': 15,
+  'Melodia by Corona|The Great Library': 20,
+  'Melodia by Corona|House Of Fortune by JBL': 20,
+  'Melodia by Corona|Moosebar': 10,
+  'Celestia by Kucoin|Planaxis': 10,
+  'Celestia by Kucoin|Atmosphere': 15,
+  'Celestia by Kucoin|Core': 15,
+  'Celestia by Kucoin|Crystal Garden': 15,
+  'Celestia by Kucoin|The Great Library': 20,
+  'Celestia by Kucoin|House Of Fortune by JBL': 20,
+  'Celestia by Kucoin|Moosebar': 10,
+  'Planaxis|Atmosphere': 10,
+  'Planaxis|Core': 15,
+  'Planaxis|Crystal Garden': 20,
+  'Planaxis|The Great Library': 20,
+  'Planaxis|House Of Fortune by JBL': 20,
+  'Planaxis|Moosebar': 15,
+  'Atmosphere|Core': 10,
+  'Atmosphere|Crystal Garden': 15,
+  'Atmosphere|The Great Library': 15,
+  'Atmosphere|House Of Fortune by JBL': 15,
+  'Atmosphere|Moosebar': 15,
+  'Core|Crystal Garden': 10,
+  'Core|The Great Library': 10,
+  'Core|House Of Fortune by JBL': 10,
+  'Core|Moosebar': 15,
+  'Crystal Garden|The Great Library': 5,
+  'Crystal Garden|House Of Fortune by JBL': 10,
+  'Crystal Garden|Moosebar': 15,
+  'The Great Library|House Of Fortune by JBL': 5,
+  'The Great Library|Moosebar': 15,
+  'House Of Fortune by JBL|Moosebar': 10,
 };
 function walkTime(s1, s2) {
   if(s1 === s2) return 0;
@@ -534,10 +807,9 @@ function transitionVerdict(actA, actB) {
   const leaveAt = actA.b - WALK_MIN/60; // leave WALK_MIN mins before end
   const overlapMins = Math.round((actA.b - actB.a) * 60); // positive = sets overlap
   if(wt === null) {
-    // no walk time data — just check set overlap
-    if(overlapMins <= 0) return { type: 'ok', msg: null };
+    if(overlapMins <= 0) return { type: 'ok', msg: 'No walk time data — sets don\'t overlap' };
     if(overlapMins <= 10) return { type: 'tight', msg: 'Sets overlap by ' + overlapMins + ' min — leave a bit early' };
-    return { type: 'clash', msg: 'Sets overlap by ' + overlapMins + ' min — stages not in walk data' };
+    return { type: 'clash', msg: 'Sets overlap by ' + overlapMins + ' min — no walk data for this route' };
   }
   // time you arrive at next stage = leaveAt + walkTime (in hours)
   const arriveAt = leaveAt + wt/60;
@@ -608,7 +880,7 @@ function renderMySchedule() {
     // Acts
     acts.forEach((act, i) => {
       const si = stageList.indexOf(act.s);
-      const [bg, fg] = stageBg[si >= 0 ? si : 0];
+      const [bg, fg] = getActColors(si);
       const top = (act.a - minH) * PX_MINI;
       const h = Math.max(28, (act.b - act.a) * PX_MINI - 3);
 
@@ -635,8 +907,8 @@ function renderMySchedule() {
         pill.className = 'transition-pill transition-pill-' + verdict.type;
         pill.style.top = pillTop + 'px';
         const icon = verdict.type === 'ok' ? '↓' : verdict.type === 'tight' ? '⚡' : '✗';
-        const fromTo = act.s !== next.s ? act.s + ' → ' + next.s + ' · ' : '';
-        pill.innerHTML = '<span class="tr-icon">' + icon + '</span><span class="tr-msg">' + fromTo + (verdict.msg || 'Same stage') + pctStr + '</span>';
+        const fromTo = act.s !== next.s ? act.s + ' → ' + next.s + ' · ' : 'Same stage · ';
+        pill.innerHTML = '<span class="tr-icon">' + icon + '</span><span class="tr-msg">' + fromTo + (verdict.msg || '') + pctStr + '</span>';
         ac.appendChild(pill);
       }
     });
@@ -683,6 +955,18 @@ function renderWhoLikes() {
 }
 
 document.getElementById('search').addEventListener('input', renderGrid);
+document.addEventListener('input', e => { if(e.target.id === 'walk-search') renderWalkTable(e.target.value.toLowerCase().trim()); });
+
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light');
+  document.getElementById('theme-toggle').textContent = isLight ? '🌑' : '🌙';
+  localStorage.setItem('tml26_theme', isLight ? 'light' : 'dark');
+  if(currentTab === 'grid') renderGrid();
+  if(currentTab === 'mysched') renderMySchedule();
+}
+
+const savedTheme = localStorage.getItem('tml26_theme');
+if(savedTheme === 'light') { document.body.classList.add('light'); document.getElementById('theme-toggle').textContent = '🌑'; }
 
 function renderInfoMap() {
   const wrap = document.getElementById('map-wrap');
@@ -691,10 +975,48 @@ function renderInfoMap() {
   img.src = 'map.png';
   img.style.cssText = 'width:100%;display:block;border-radius:12px;';
   img.alt = 'Tomorrowland 2026 festival map';
-  img.onerror = () => {
-    wrap.innerHTML = '<div class="map-note">Add <code>map.png</code> to your GitHub repo root and it will appear here.</div>';
-  };
+  img.onerror = () => { wrap.innerHTML = '<div class="map-note">Add <code>map.png</code> to your GitHub repo root and it will appear here.</div>'; };
   wrap.appendChild(img);
+  renderWalkTable('');
+}
+
+function renderWalkTable(filter) {
+  const wrap = document.getElementById('walk-table-wrap');
+  if(!wrap) return;
+  const CONFIRMED = new Set([
+    'Mainstage|Freedom by Bud','Mainstage|The Great Library','Mainstage|House Of Fortune by JBL',
+    'Mainstage|Crystal Garden','Mainstage|Atmosphere','Mainstage|Core','Mainstage|Rose Garden',
+    'Mainstage|Melodia by Corona','Mainstage|Planaxis','Freedom by Bud|Rose Garden'
+  ]);
+  const NEW_STAGES = new Set(['Planaxis','Melodia by Corona','Celestia by Kucoin','House Of Fortune by JBL']);
+  const rows = Object.entries(WALK_TIMES).map(([key, mins]) => {
+    const [a, b] = key.split('|');
+    const confirmed = CONFIRMED.has(key) || CONFIRMED.has(b+'|'+a);
+    const hasNewStage = NEW_STAGES.has(a) || NEW_STAGES.has(b);
+    return { a, b, mins, confirmed, hasNewStage };
+  }).sort((x, y) => x.mins - y.mins || x.a.localeCompare(y.a));
+
+  const filtered = filter ? rows.filter(r => r.a.toLowerCase().includes(filter) || r.b.toLowerCase().includes(filter)) : rows;
+
+  const table = document.createElement('table'); table.className = 'walk-table';
+  const thead = document.createElement('thead');
+  thead.innerHTML = '<tr><th>From</th><th>To</th><th>Walk</th><th>Source</th></tr>';
+  table.appendChild(thead);
+  const tbody = document.createElement('tbody');
+  filtered.forEach(r => {
+    const tr = document.createElement('tr');
+    const timeClass = r.mins <= 10 ? 'wt-time-green' : r.mins <= 20 ? 'wt-time-yellow' : r.mins <= 30 ? 'wt-time-orange' : 'wt-time-red';
+    const sourceLabel = r.confirmed
+      ? '<span class="wt-confirmed">✅ confirmed</span>'
+      : r.hasNewStage
+        ? '<span class="wt-estimated" style="color:#f87171;">⚠️ new stage</span>'
+        : '<span class="wt-estimated">〜 estimated</span>';
+    tr.innerHTML = `<td>${r.a}</td><td>${r.b}</td><td class="${timeClass}">${r.mins} min</td><td>${sourceLabel}</td>`;
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  wrap.innerHTML = '';
+  wrap.appendChild(table);
 }
 
 tryAutoLogin();
