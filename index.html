@@ -106,8 +106,10 @@ body.light .walk-sel { background: #fff; border-color: #ddd; color: #1a1a1a; }
 .time-col { width: 46px; flex-shrink: 0; padding-top: 34px; }
 .time-tick { height: 64px; display: flex; align-items: flex-start; justify-content: flex-end; padding-right: 8px; font-size: 10px; color: #555; font-weight: 500; }
 .stages-area { flex: 1; display: flex; flex-direction: column; }
-.stage-headers { display: flex; border-bottom: 1px solid #1e1e1e; }
-.stage-hdr { font-size: 9px; font-weight: 700; color: #555; text-align: center; padding: 6px 3px; line-height: 1.3; text-transform: uppercase; letter-spacing: 0.04em; }
+.stage-headers { display: flex; position: sticky; top: 0; z-index: 4; background: #0a0a0a; }
+body.light .stage-headers { background: #f5f5f5; }
+.stage-hdr { font-size: 9px; font-weight: 700; color: #999; text-align: center; padding: 6px 3px; line-height: 1.3; text-transform: uppercase; letter-spacing: 0.04em; }
+body.light .stage-hdr { color: #555; }
 .grid-body { position: relative; }
 .hour-line { position: absolute; left: 0; right: 0; border-bottom: 1px solid #1a1a1a; }
 .col-div { position: absolute; top: 0; bottom: 0; border-left: 1px solid #1a1a1a; }
@@ -121,7 +123,8 @@ body.light .walk-sel { background: #fff; border-color: #ddd; color: #1a1a1a; }
 .sched-empty { font-size: 13px; color: #666; padding: 2rem 0; }
 .sched-day-title { font-size: 12px; font-weight: 700; color: #666; margin: 20px 0 10px; text-transform: uppercase; letter-spacing: 0.06em; }
 .sched-note { font-size: 11px; color: #555; margin-top: 16px; }
-.mini-tt { display: flex; gap: 16px; }
+.mini-tt { display: flex; gap: 16px; border: 1px solid #2a2a2a; border-radius: 12px; padding: 12px 8px 12px 0; background: #141414; margin-bottom: 16px; }
+body.light .mini-tt { border-color: #e0e0e0; background: #fff; }
 .mini-left { display: flex; gap: 0; flex: 1; min-width: 0; }
 .mini-right { width: 200px; flex-shrink: 0; padding-top: 0; }
 .mini-time-col { width: 44px; flex-shrink: 0; }
@@ -144,7 +147,9 @@ body.light .transition-callout-ok { background: #e8faf0; color: #1a7a45; border-
 body.light .transition-callout-tight { background: #fffae8; color: #7a5c1a; border-color: #e8d8a0; }
 body.light .transition-callout-clash { background: #fae8e8; color: #7a1a1a; border-color: #e8b8b8; }
 .wl-section-title { font-size: 12px; font-weight: 700; color: #666; margin: 16px 0 8px; text-transform: uppercase; letter-spacing: 0.06em; }
-.wl-act { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid #1a1a1a; }
+.wl-act { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid #1a1a1a; }
+.wl-act:last-child { border-bottom: none; }
+body.light .wl-act { border-color: #f0f0f0; }
 .wl-name { font-size: 13px; font-weight: 700; flex: 1; }
 .wl-stage { font-size: 11px; color: #666; min-width: 110px; }
 .wl-time { font-size: 11px; color: #555; min-width: 85px; }
@@ -282,9 +287,13 @@ body.light .walk-pill-orange .wp-stages { color: #7a3a10; }
   <div id="grid-view">
     <div class="tabs" id="daytabs"></div>
     <div class="controls"><input type="text" id="search" placeholder="Search artist..."></div>
+    <div id="stage-header-outer" style="overflow-x:hidden;position:sticky;top:0;z-index:5;"></div>
     <div class="outer" id="outer"></div>
   </div>
-  <div id="mysched-view" style="display:none;"><div id="myschedcontent"></div></div>
+  <div id="mysched-view" style="display:none;">
+    <div class="tabs" id="mysched-daytabs"></div>
+    <div id="myschedcontent"></div>
+  </div>
   <div id="wholikes-view" style="display:none;"><div id="wholikescontent"></div></div>
   <div id="info-view" style="display:none;">
     <div class="info-section">
@@ -564,7 +573,7 @@ function switchTab(t) {
   currentTab = t;
   ['grid','mysched','wholikes','info'].forEach(v => { document.getElementById(v + '-view').style.display = v === t ? '' : 'none'; });
   document.querySelectorAll('#maintabs .tab').forEach((b, i) => b.classList.toggle('active', ['grid','mysched','wholikes','info'][i] === t));
-  if(t === 'mysched') renderMySchedule();
+  if(t === 'mysched') { buildSchedDayTabs(); renderMySchedule(); }
   if(t === 'wholikes') renderWhoLikes();
   if(t === 'info') renderInfoMap();
 }
@@ -585,13 +594,28 @@ function renderGrid() {
   buildDayTabs();
   const search = document.getElementById('search').value.toLowerCase().trim();
   const outer = document.getElementById('outer');
+  const headerOuter = document.getElementById('stage-header-outer');
   outer.innerHTML = '';
+  headerOuter.innerHTML = '';
   const acts = allDays[currentDay];
   if(!acts) { outer.innerHTML = '<div class="tba-msg">Set times not yet announced.</div>'; return; }
 
   const SW = Math.max(72, Math.floor(1200 / stageList.length));
   const gridH = (EH - SH) * PX;
   const myFavs = new Set(Array.isArray(currentUser?.favorites) ? currentUser.favorites : []);
+
+  // Sticky header row
+  const stickyWrap = document.createElement('div');
+  stickyWrap.style.cssText = 'display:flex;min-width:' + (46 + stageList.length * SW) + 'px;background:' + (document.body.classList.contains('light') ? '#f5f5f5' : '#0a0a0a') + ';';
+  const stickyTC = document.createElement('div');
+  stickyTC.style.cssText = 'width:46px;flex-shrink:0;';
+  stickyWrap.appendChild(stickyTC);
+  const stickyHdrs = document.createElement('div');
+  stickyHdrs.className = 'stage-headers';
+  stickyHdrs.style.cssText = 'flex:1;display:flex;';
+  stageList.forEach(s => { const h = document.createElement('div'); h.className = 'stage-hdr'; h.style.width = SW + 'px'; h.textContent = s; stickyHdrs.appendChild(h); });
+  stickyWrap.appendChild(stickyHdrs);
+  headerOuter.appendChild(stickyWrap);
 
   const wrap = document.createElement('div');
   wrap.className = 'grid-wrap';
@@ -604,10 +628,6 @@ function renderGrid() {
 
   const sa = document.createElement('div');
   sa.className = 'stages-area';
-  const hdrs = document.createElement('div');
-  hdrs.className = 'stage-headers';
-  stageList.forEach(s => { const h = document.createElement('div'); h.className = 'stage-hdr'; h.style.width = SW + 'px'; h.textContent = s; hdrs.appendChild(h); });
-  sa.appendChild(hdrs);
 
   const body = document.createElement('div');
   body.className = 'grid-body';
@@ -653,6 +673,7 @@ function renderGrid() {
     });
   });
   sa.appendChild(body); wrap.appendChild(sa); outer.appendChild(wrap);
+  outer.onscroll = () => { headerOuter.scrollLeft = outer.scrollLeft; };
   updateFavCount();
 }
 
@@ -800,7 +821,23 @@ function transitionVerdict(actA, actB) {
   }
 }
 
+let schedDay = 'all';
+
+function buildSchedDayTabs() {
+  const el = document.getElementById('mysched-daytabs');
+  if(!el) return;
+  el.innerHTML = '';
+  ['all', ...dayKeys].forEach(d => {
+    const b = document.createElement('button');
+    b.className = 'tab' + (schedDay === d ? ' active' : '');
+    b.textContent = d === 'all' ? 'All days' : d;
+    b.onclick = () => { schedDay = d; buildSchedDayTabs(); renderMySchedule(); };
+    el.appendChild(b);
+  });
+}
+
 function renderMySchedule() {
+  buildSchedDayTabs();
   const el = document.getElementById('myschedcontent');
   el.innerHTML = '';
   if(!currentUser || !Array.isArray(currentUser.favorites) || !currentUser.favorites.length) {
@@ -814,9 +851,10 @@ function renderMySchedule() {
     if(day) { const act = allDays[day].find(x => x.n === n && x.s === s && x.a === a); if(act) byDay[day].push(act); }
   });
 
+  const daysToShow = schedDay === 'all' ? dayKeys : [schedDay];
   const PX_MINI = 52;
 
-  dayKeys.forEach(d => {
+  daysToShow.forEach(d => {
     const acts = byDay[d].sort((a, b) => a.a - b.a);
     if(!acts.length) return;
 
@@ -873,7 +911,7 @@ function renderMySchedule() {
         const hasOverlap = numCols > 1 && columns.some((otherCol, oi) => oi !== ci && otherCol.some(o => o.a < act.b && o.b > act.a));
 
         const block = document.createElement('div'); block.className = 'mini-act';
-        block.style.cssText = `top:${top}px;height:${h}px;left:${leftPct}%;width:calc(${widthPct}% - 4px);background:${bg};color:${fg};outline:2px solid ${currentUser.color};outline-offset:-2px;cursor:default;`;
+        block.style.cssText = `top:${top}px;height:${h}px;left:${leftPct}%;width:calc(${widthPct}% - 4px);background:${bg};color:${fg};cursor:default;border-radius:6px;`;
         const nm = document.createElement('div'); nm.className = 'mini-act-name'; nm.textContent = act.n; block.appendChild(nm);
         if(h > 30) { const sg = document.createElement('div'); sg.className = 'mini-act-stage'; sg.textContent = act.s; block.appendChild(sg); }
         if(h > 44) { const tm = document.createElement('div'); tm.className = 'mini-act-time'; tm.textContent = fmt12(act.a) + '–' + fmt12(act.b); block.appendChild(tm); }
@@ -928,6 +966,8 @@ function renderWhoLikes() {
     }).sort((a, b) => a.a - b.a);
     if(!withFavs.length) return;
     const title = document.createElement('div'); title.className = 'wl-section-title'; title.textContent = day; el.appendChild(title);
+    const card = document.createElement('div');
+    card.style.cssText = 'border:1px solid #2a2a2a;border-radius:12px;overflow:hidden;margin-bottom:16px;';
     withFavs.forEach(act => {
       const k = favKey(act);
       const who = allUsers.filter(u => Array.isArray(u.favorites) && u.favorites.includes(k));
@@ -940,12 +980,13 @@ function renderWhoLikes() {
         const p = document.createElement('div'); p.className = 'wl-person';
         const dot = document.createElement('div'); dot.className = 'wl-pdot';
         dot.style.background = u.color; dot.textContent = u.initials || '?';
-        const name = document.createElement('span'); name.textContent = u.name;
-        p.appendChild(dot); p.appendChild(name); whoEl.appendChild(p);
+        dot.title = u.name;
+        p.appendChild(dot); whoEl.appendChild(p);
       });
       row.appendChild(nameEl); row.appendChild(stageEl); row.appendChild(timeEl); row.appendChild(whoEl);
-      el.appendChild(row);
+      card.appendChild(row);
     });
+    el.appendChild(card);
   });
   if(!el.children.length) el.innerHTML = '<p class="sched-empty">No picks yet — be the first to tap some acts!</p>';
 }
