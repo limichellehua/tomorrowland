@@ -64,6 +64,8 @@ body.light .tba-msg { color: #aaa; }
 body.light .sched-day-title { color: #bbb; }
 .theme-toggle { background: none; border: 1px solid #2a2a2a; border-radius: 20px; padding: 5px 10px; font-size: 14px; cursor: pointer; transition: border-color 0.15s; }
 body.light .theme-toggle { border-color: #ddd; }
+.walk-sel { border: 1px solid #2a2a2a; background: #141414; color: #f0f0f0; }
+body.light .walk-sel { background: #fff; border-color: #ddd; color: #1a1a1a; }
 .onboard-overlay { position: fixed; inset: 0; background: #0a0a0a; display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
 .onboard-card { background: #141414; border: 1px solid #2a2a2a; border-radius: 16px; padding: 40px 36px; max-width: 420px; width: 100%; }
 .onboard-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
@@ -119,24 +121,28 @@ body.light .theme-toggle { border-color: #ddd; }
 .sched-empty { font-size: 13px; color: #666; padding: 2rem 0; }
 .sched-day-title { font-size: 12px; font-weight: 700; color: #666; margin: 20px 0 10px; text-transform: uppercase; letter-spacing: 0.06em; }
 .sched-note { font-size: 11px; color: #555; margin-top: 16px; }
-.mini-tt { display: flex; gap: 0; }
-.mini-time-col { width: 52px; flex-shrink: 0; padding-top: 0; }
+.mini-tt { display: flex; gap: 16px; }
+.mini-left { display: flex; gap: 0; flex: 1; min-width: 0; }
+.mini-right { width: 200px; flex-shrink: 0; padding-top: 0; }
+.mini-time-col { width: 44px; flex-shrink: 0; }
 .mini-time-tick { display: flex; align-items: flex-start; justify-content: flex-end; padding-right: 8px; font-size: 10px; color: #555; font-weight: 500; }
-.mini-acts-col { flex: 1; position: relative; border-left: 1px solid #1e1e1e; }
+.mini-acts-col { flex: 1; position: relative; border-left: 1px solid #1e1e1e; min-width: 0; }
 .mini-hour-line { position: absolute; left: 0; right: 0; border-top: 1px solid #1a1a1a; }
-.mini-act { position: absolute; left: 8px; right: 8px; border-radius: 6px; padding: 5px 8px; cursor: pointer; overflow: hidden; transition: opacity 0.12s; }
-.mini-act:hover { opacity: 0.8; }
+.mini-act { position: absolute; left: 6px; right: 6px; border-radius: 6px; padding: 5px 8px; cursor: default; overflow: hidden; }
 .mini-act-name { font-size: 12px; font-weight: 700; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .mini-act-stage { font-size: 10px; opacity: 0.7; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .mini-act-time { font-size: 10px; opacity: 0.55; }
-.mini-connector { position: absolute; left: 0; width: 8px; display: flex; flex-direction: column; align-items: center; }
-.mini-connector-line { width: 2px; flex: 1; }
-.transition-pill { position: absolute; left: 16px; right: 8px; border-radius: 6px; padding: 3px 8px; font-size: 11px; display: flex; align-items: center; gap: 6px; z-index: 2; }
-.transition-pill-ok { background: #0f1f0f; color: #4ade80; }
-.transition-pill-tight { background: #1f1a0a; color: #fbbf24; }
-.transition-pill-clash { background: #1f0a0a; color: #f87171; }
-.tr-icon { font-size: 12px; font-weight: 700; flex-shrink: 0; }
-.tr-msg { line-height: 1.3; font-size: 11px; }
+.transition-callout { position: absolute; right: 0; border-radius: 8px; padding: 5px 8px; font-size: 11px; line-height: 1.4; width: 196px; }
+.transition-callout-ok { background: #0f1f0f; color: #4ade80; border: 1px solid #1a3a1a; }
+.transition-callout-tight { background: #1f1a0a; color: #fbbf24; border: 1px solid #3a2a0a; }
+.transition-callout-clash { background: #1f0a0a; color: #f87171; border: 1px solid #3a1a1a; }
+.tc-icon { font-weight: 700; margin-right: 4px; }
+body.light .mini-acts-col { border-color: #e0e0e0; }
+body.light .mini-hour-line { border-color: #efefef; }
+body.light .mini-time-tick { color: #bbb; }
+body.light .transition-callout-ok { background: #e8faf0; color: #1a7a45; border-color: #b8e8cc; }
+body.light .transition-callout-tight { background: #fffae8; color: #7a5c1a; border-color: #e8d8a0; }
+body.light .transition-callout-clash { background: #fae8e8; color: #7a1a1a; border-color: #e8b8b8; }
 .wl-section-title { font-size: 12px; font-weight: 700; color: #666; margin: 16px 0 8px; text-transform: uppercase; letter-spacing: 0.06em; }
 .wl-act { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid #1a1a1a; }
 .wl-name { font-size: 13px; font-weight: 700; flex: 1; }
@@ -295,52 +301,19 @@ body.light .walk-pill-orange .wp-stages { color: #7a3a10; }
 
     <div class="info-section">
       <div class="info-title">Walking times between stages</div>
-      <div class="info-sub">✅ = confirmed · 〜 = estimated from map position. Leave 10 min before a set ends to start walking.</div>
-
-      <div class="walk-hub">
-        <div class="hub-center">Mainstage ✅</div>
-        <div class="hub-spokes">
-          <div class="spoke spoke-green"><div class="spoke-time">5 min</div><div class="spoke-line"></div><div class="spoke-stage">House Of Fortune by JBL</div></div>
-          <div class="spoke spoke-green"><div class="spoke-time">10 min</div><div class="spoke-line"></div><div class="spoke-stage">The Great Library</div></div>
-          <div class="spoke spoke-green"><div class="spoke-time">15 min</div><div class="spoke-line"></div><div class="spoke-stage">Crystal Garden</div></div>
-          <div class="spoke spoke-green"><div class="spoke-time">15 min</div><div class="spoke-line"></div><div class="spoke-stage">Atmosphere</div></div>
-          <div class="spoke spoke-yellow"><div class="spoke-time">20 min</div><div class="spoke-line"></div><div class="spoke-stage">Core</div></div>
-          <div class="spoke spoke-yellow"><div class="spoke-time">20 min</div><div class="spoke-line"></div><div class="spoke-stage">Planaxis</div></div>
-          <div class="spoke spoke-yellow"><div class="spoke-time">25 min</div><div class="spoke-line"></div><div class="spoke-stage">Melodia by Corona</div></div>
-          <div class="spoke spoke-orange"><div class="spoke-time">30 min</div><div class="spoke-line"></div><div class="spoke-stage">Rose Garden</div></div>
-          <div class="spoke spoke-orange"><div class="spoke-time">35 min</div><div class="spoke-line"></div><div class="spoke-stage">Freedom by Bud</div></div>
-          <div class="spoke spoke-red"><div class="spoke-time">50 min</div><div class="spoke-line"></div><div class="spoke-stage">Shuttles GJ</div></div>
-        </div>
+      <div class="info-sub">✅ = confirmed from Reddit · 〜 = estimated from map position · times assume normal crowd density</div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px;">
+        <select id="walk-from" class="walk-sel" style="flex:1;min-width:140px;font-size:13px;padding:8px 12px;border-radius:8px;outline:none;">
+          <option value="">From...</option>
+        </select>
+        <span style="font-size:18px;color:#555;">→</span>
+        <select id="walk-to" class="walk-sel" style="flex:1;min-width:140px;font-size:13px;padding:8px 12px;border-radius:8px;outline:none;">
+          <option value="">To...</option>
+        </select>
       </div>
-
-      <div class="walk-also" style="margin-top:20px;">
-        <div class="walk-also-title">All stage pairs</div>
-        <input type="text" id="walk-search" placeholder="Search stages..." style="width:100%;margin-bottom:10px;font-size:13px;padding:7px 12px;border-radius:8px;border:1px solid #2a2a2a;background:#141414;color:#f0f0f0;outline:none;">
-        <div id="walk-table-wrap"></div>
-      </div>
+      <div id="walk-result"></div>
     </div>
 
-    <div class="info-section">
-      <div class="info-title">How clash warnings work</div>
-      <div class="info-cards">
-        <div class="info-card info-card-ok">
-          <div class="info-card-icon">↓</div>
-          <div class="info-card-label">Easy</div>
-          <div class="info-card-desc">You arrive 10+ min before the next set starts, even after the walk.</div>
-        </div>
-        <div class="info-card info-card-tight">
-          <div class="info-card-icon">⚡</div>
-          <div class="info-card-label">Tight</div>
-          <div class="info-card-desc">You'll miss the first 1–15 min. Worth it depending on the act.</div>
-        </div>
-        <div class="info-card info-card-clash">
-          <div class="info-card-icon">✗</div>
-          <div class="info-card-label">Clash</div>
-          <div class="info-card-desc">You'd miss 15+ min even leaving 10 min early. Pick one.</div>
-        </div>
-      </div>
-      <div class="info-note">All walk times assume you leave 10 minutes before a set ends. Actual times may vary depending on crowd density.</div>
-    </div>
   </div>
 
 <script>
@@ -841,7 +814,7 @@ function renderMySchedule() {
     if(day) { const act = allDays[day].find(x => x.n === n && x.s === s && x.a === a); if(act) byDay[day].push(act); }
   });
 
-  const PX_MINI = 48; // px per hour in mini timetable
+  const PX_MINI = 52;
 
   dayKeys.forEach(d => {
     const acts = byDay[d].sort((a, b) => a.a - b.a);
@@ -849,7 +822,6 @@ function renderMySchedule() {
 
     const title = document.createElement('div'); title.className = 'sched-day-title'; title.textContent = d; el.appendChild(title);
 
-    if(!acts.length) return;
     const minH = Math.floor(acts[0].a);
     const maxH = Math.ceil(acts[acts.length-1].b);
     const totalH = maxH - minH;
@@ -857,7 +829,9 @@ function renderMySchedule() {
 
     const wrap = document.createElement('div'); wrap.className = 'mini-tt';
 
-    // Time column
+    // Left side: time col + acts col
+    const left = document.createElement('div'); left.className = 'mini-left';
+
     const tc = document.createElement('div'); tc.className = 'mini-time-col';
     tc.style.height = (gridH + 16) + 'px';
     for(let h = minH; h <= maxH; h++) {
@@ -866,58 +840,80 @@ function renderMySchedule() {
       tick.textContent = fmt12(h);
       tc.appendChild(tick);
     }
-    wrap.appendChild(tc);
+    left.appendChild(tc);
 
-    // Acts column
     const ac = document.createElement('div'); ac.className = 'mini-acts-col'; ac.style.height = gridH + 'px';
-
-    // Hour lines
     for(let h = 0; h <= totalH; h++) {
       const line = document.createElement('div'); line.className = 'mini-hour-line';
       line.style.top = (h * PX_MINI) + 'px'; ac.appendChild(line);
     }
 
-    // Acts
-    acts.forEach((act, i) => {
-      const si = stageList.indexOf(act.s);
-      const [bg, fg] = getActColors(si);
-      const top = (act.a - minH) * PX_MINI;
-      const h = Math.max(28, (act.b - act.a) * PX_MINI - 3);
-
-      const block = document.createElement('div'); block.className = 'mini-act';
-      block.style.cssText = 'top:' + top + 'px;height:' + h + 'px;background:' + bg + ';color:' + fg + ';outline:2px solid ' + currentUser.color + ';outline-offset:-2px;cursor:default;';
-      const nm = document.createElement('div'); nm.className = 'mini-act-name'; nm.textContent = act.n; block.appendChild(nm);
-      if(h > 30) { const sg = document.createElement('div'); sg.className = 'mini-act-stage'; sg.textContent = act.s; block.appendChild(sg); }
-      if(h > 44) { const tm = document.createElement('div'); tm.className = 'mini-act-time'; tm.textContent = fmt12(act.a) + '–' + fmt12(act.b); block.appendChild(tm); }
-      ac.appendChild(block);
-
-      // Transition pill between acts
-      if(i < acts.length - 1) {
-        const next = acts[i + 1];
-        const verdict = transitionVerdict(act, next);
-
-        // overlap % for display
-        const overlapMins = Math.round((act.b - next.a) * 60);
-        const actDurMins = Math.round((next.b - next.a) * 60);
-        const overlapPct = actDurMins > 0 ? Math.round((overlapMins / actDurMins) * 100) : 0;
-        const pctStr = overlapMins > 0 ? ' (' + overlapPct + '% of next set)' : '';
-
-        const pillTop = (act.b - minH) * PX_MINI - 14;
-        const pill = document.createElement('div');
-        pill.className = 'transition-pill transition-pill-' + verdict.type;
-        pill.style.top = pillTop + 'px';
-        const icon = verdict.type === 'ok' ? '↓' : verdict.type === 'tight' ? '⚡' : '✗';
-        const fromTo = act.s !== next.s ? act.s + ' → ' + next.s + ' · ' : 'Same stage · ';
-        pill.innerHTML = '<span class="tr-icon">' + icon + '</span><span class="tr-msg">' + fromTo + (verdict.msg || '') + pctStr + '</span>';
-        ac.appendChild(pill);
+    // Figure out overlapping groups and assign columns
+    const columns = [];
+    acts.forEach(act => {
+      let placed = false;
+      for(let col = 0; col < columns.length; col++) {
+        const last = columns[col][columns[col].length - 1];
+        if(last.b <= act.a) { columns[col].push(act); placed = true; break; }
       }
+      if(!placed) columns.push([act]);
+    });
+    const numCols = columns.length;
+
+    columns.forEach((col, ci) => {
+      col.forEach(act => {
+        const si = stageList.indexOf(act.s);
+        const [bg, fg] = getActColors(si);
+        const top = (act.a - minH) * PX_MINI;
+        const h = Math.max(28, (act.b - act.a) * PX_MINI - 3);
+        const leftPct = (ci / numCols) * 100;
+        const widthPct = (1 / numCols) * 100;
+
+        // Check overlap with any act in other columns at same time
+        const hasOverlap = numCols > 1 && columns.some((otherCol, oi) => oi !== ci && otherCol.some(o => o.a < act.b && o.b > act.a));
+
+        const block = document.createElement('div'); block.className = 'mini-act';
+        block.style.cssText = `top:${top}px;height:${h}px;left:${leftPct}%;width:calc(${widthPct}% - 4px);background:${bg};color:${fg};outline:2px solid ${currentUser.color};outline-offset:-2px;cursor:default;`;
+        const nm = document.createElement('div'); nm.className = 'mini-act-name'; nm.textContent = act.n; block.appendChild(nm);
+        if(h > 30) { const sg = document.createElement('div'); sg.className = 'mini-act-stage'; sg.textContent = act.s; block.appendChild(sg); }
+        if(h > 44) { const tm = document.createElement('div'); tm.className = 'mini-act-time'; tm.textContent = fmt12(act.a) + '–' + fmt12(act.b); block.appendChild(tm); }
+        ac.appendChild(block);
+      });
     });
 
-    wrap.appendChild(ac);
+    left.appendChild(ac);
+    wrap.appendChild(left);
+
+    // Right side: transition callouts — simplified
+    const right = document.createElement('div'); right.className = 'mini-right';
+    right.style.cssText = 'position:relative;height:' + gridH + 'px;';
+
+    acts.forEach((act, i) => {
+      if(i >= acts.length - 1) return;
+      const next = acts[i + 1];
+      const verdict = transitionVerdict(act, next);
+
+      // Only show callout if not easy with plenty of time
+      const wt = walkTime(act.s, next.s);
+      const gapMins = Math.round((next.a - act.b) * 60);
+      const isEasyWithGap = verdict.type === 'ok' && gapMins >= 20 && act.s === next.s;
+      if(isEasyWithGap) return;
+
+      const icon = verdict.type === 'ok' ? '↓' : verdict.type === 'tight' ? '⚡' : '✗';
+      const stageMove = act.s !== next.s ? act.s + ' → ' + next.s : 'Same stage';
+      const walkStr = wt !== null && act.s !== next.s ? ' (~' + wt + ' min walk)' : '';
+
+      const midPoint = ((act.b + next.a) / 2 - minH) * PX_MINI;
+      const callout = document.createElement('div');
+      callout.className = 'transition-callout transition-callout-' + verdict.type;
+      callout.style.cssText = 'position:absolute;top:' + (midPoint - 20) + 'px;left:0;right:0;';
+      callout.innerHTML = '<strong>' + stageMove + '</strong>' + walkStr;
+      right.appendChild(callout);
+    });
+
+    wrap.appendChild(right);
     el.appendChild(wrap);
   });
-
-  const note = document.createElement('p'); note.className = 'sched-note'; note.textContent = 'Walk times assume you leave 10 min before a set ends.'; el.appendChild(note);
 }
 
 function renderWhoLikes() {
@@ -955,7 +951,6 @@ function renderWhoLikes() {
 }
 
 document.getElementById('search').addEventListener('input', renderGrid);
-document.addEventListener('input', e => { if(e.target.id === 'walk-search') renderWalkTable(e.target.value.toLowerCase().trim()); });
 
 function toggleTheme() {
   const isLight = document.body.classList.toggle('light');
@@ -968,55 +963,57 @@ function toggleTheme() {
 const savedTheme = localStorage.getItem('tml26_theme');
 if(savedTheme === 'light') { document.body.classList.add('light'); document.getElementById('theme-toggle').textContent = '🌑'; }
 
+const WALK_CONFIRMED = new Set([
+  'Mainstage|Freedom by Bud','Mainstage|The Great Library','Mainstage|House Of Fortune by JBL',
+  'Mainstage|Crystal Garden','Mainstage|Atmosphere','Mainstage|Core','Mainstage|Rose Garden',
+  'Mainstage|Melodia by Corona','Mainstage|Planaxis','Freedom by Bud|Rose Garden'
+]);
+
 function renderInfoMap() {
   const wrap = document.getElementById('map-wrap');
   wrap.innerHTML = '';
   const img = document.createElement('img');
   img.src = 'map.png';
   img.style.cssText = 'width:100%;display:block;border-radius:12px;';
-  img.alt = 'Tomorrowland 2026 festival map';
+  img.alt = 'Tomorrowland festival map';
   img.onerror = () => { wrap.innerHTML = '<div class="map-note">Add <code>map.png</code> to your GitHub repo root and it will appear here.</div>'; };
   wrap.appendChild(img);
-  renderWalkTable('');
-}
 
-function renderWalkTable(filter) {
-  const wrap = document.getElementById('walk-table-wrap');
-  if(!wrap) return;
-  const CONFIRMED = new Set([
-    'Mainstage|Freedom by Bud','Mainstage|The Great Library','Mainstage|House Of Fortune by JBL',
-    'Mainstage|Crystal Garden','Mainstage|Atmosphere','Mainstage|Core','Mainstage|Rose Garden',
-    'Mainstage|Melodia by Corona','Mainstage|Planaxis','Freedom by Bud|Rose Garden'
-  ]);
-  const NEW_STAGES = new Set(['Planaxis','Melodia by Corona','Celestia by Kucoin','House Of Fortune by JBL']);
-  const rows = Object.entries(WALK_TIMES).map(([key, mins]) => {
-    const [a, b] = key.split('|');
-    const confirmed = CONFIRMED.has(key) || CONFIRMED.has(b+'|'+a);
-    const hasNewStage = NEW_STAGES.has(a) || NEW_STAGES.has(b);
-    return { a, b, mins, confirmed, hasNewStage };
-  }).sort((x, y) => x.mins - y.mins || x.a.localeCompare(y.a));
-
-  const filtered = filter ? rows.filter(r => r.a.toLowerCase().includes(filter) || r.b.toLowerCase().includes(filter)) : rows;
-
-  const table = document.createElement('table'); table.className = 'walk-table';
-  const thead = document.createElement('thead');
-  thead.innerHTML = '<tr><th>From</th><th>To</th><th>Walk</th><th>Source</th></tr>';
-  table.appendChild(thead);
-  const tbody = document.createElement('tbody');
-  filtered.forEach(r => {
-    const tr = document.createElement('tr');
-    const timeClass = r.mins <= 10 ? 'wt-time-green' : r.mins <= 20 ? 'wt-time-yellow' : r.mins <= 30 ? 'wt-time-orange' : 'wt-time-red';
-    const sourceLabel = r.confirmed
-      ? '<span class="wt-confirmed">✅ confirmed</span>'
-      : r.hasNewStage
-        ? '<span class="wt-estimated" style="color:#f87171;">⚠️ new stage</span>'
-        : '<span class="wt-estimated">〜 estimated</span>';
-    tr.innerHTML = `<td>${r.a}</td><td>${r.b}</td><td class="${timeClass}">${r.mins} min</td><td>${sourceLabel}</td>`;
-    tbody.appendChild(tr);
+  const allStages = [...new Set(Object.keys(WALK_TIMES).flatMap(k => k.split('|')))].sort();
+  const fromSel = document.getElementById('walk-from');
+  const toSel = document.getElementById('walk-to');
+  [fromSel, toSel].forEach(sel => {
+    sel.innerHTML = '<option value="">Pick a stage...</option>';
+    allStages.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; sel.appendChild(o); });
   });
-  table.appendChild(tbody);
-  wrap.innerHTML = '';
-  wrap.appendChild(table);
+
+  function updateResult() {
+    const from = fromSel.value, to = toSel.value;
+    const res = document.getElementById('walk-result');
+    if(!from || !to) { res.innerHTML = ''; return; }
+    if(from === to) { res.innerHTML = '<div style="padding:14px 16px;border-radius:10px;background:#1a1a1a;font-size:14px;color:#888;">Same stage — no walking needed!</div>'; return; }
+    const key = from+'|'+to, rev = to+'|'+from;
+    const mins = WALK_TIMES[key] !== undefined ? WALK_TIMES[key] : WALK_TIMES[rev];
+    if(mins === undefined) { res.innerHTML = '<div style="padding:14px 16px;border-radius:10px;background:#1a1a1a;font-size:14px;color:#888;">No data for this pair.</div>'; return; }
+    const confirmed = WALK_CONFIRMED.has(key) || WALK_CONFIRMED.has(rev);
+    const color = mins <= 10 ? '#4ade80' : mins <= 20 ? '#fbbf24' : mins <= 30 ? '#fb923c' : '#f87171';
+    const label = confirmed ? '✅ confirmed from Reddit' : '〜 estimated from map position';
+    const labelColor = confirmed ? '#4ade80' : '#888';
+    res.innerHTML = `<div style="padding:16px 20px;border-radius:12px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;gap:16px;margin-top:4px;">
+      <span style="font-size:44px;font-weight:800;color:${color};line-height:1;">${mins}<span style="font-size:20px;">m</span></span>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--text);">${from} → ${to}</div>
+        <div style="font-size:12px;color:${labelColor};margin-top:4px;">${label}</div>
+      </div>
+    </div>
+    <style>
+      #walk-result { --bg: #141414; --border: #2a2a2a; --text: #f0f0f0; }
+      body.light #walk-result { --bg: #f5f5f5; --border: #ddd; --text: #1a1a1a; }
+    </style>`;
+  }
+
+  fromSel.onchange = updateResult;
+  toSel.onchange = updateResult;
 }
 
 tryAutoLogin();
