@@ -344,38 +344,38 @@ const PX = 64, SH = 12, EH = 25;
 
 const stageList = ["Moosebar","The Great Library","Mainstage","House Of Fortune by JBL","Crystal Garden","Planaxis","Core","Atmosphere","Celestia by Kucoin","The Rave Cave","Cage","Melodia by Corona","Elixir","Rose Garden","Freedom by Bud"];
 const stageBg = [
-  ["#2a1a0f","#fb923c"], // Moosebar
-  ["#1a0f2a","#a78bfa"], // The Great Library
-  ["#1a2a1a","#4ade80"], // Mainstage
-  ["#0f2a1a","#34d399"], // House Of Fortune by JBL
-  ["#2a0f1e","#f472b6"], // Crystal Garden
-  ["#2a1a0f","#fb923c"], // Planaxis
-  ["#0f2a1a","#4ade80"], // Atmosphere
-  ["#2a1e0f","#fbbf24"], // Core
-  ["#0f2a1e","#34d399"], // The Rave Cave
-  ["#1e1a2a","#a78bfa"], // Cage
-  ["#2a1020","#f472b6"], // Melodia by Corona
-  ["#0f1a2a","#60a5fa"], // Celestia by Kucoin
-  ["#2a1020","#f472b6"], // Elixir
-  ["#2a1a10","#fb923c"], // Rose Garden
-  ["#1a1a2a","#818cf8"], // Freedom by Bud
+  ["#2a1500","#f97316"], // Moosebar — orange
+  ["#1a0a2a","#c084fc"], // The Great Library — purple
+  ["#0a1f0a","#4ade80"], // Mainstage — green
+  ["#0a1a2a","#60a5fa"], // House Of Fortune by JBL — blue
+  ["#2a0a1a","#f472b6"], // Crystal Garden — pink
+  ["#2a2000","#facc15"], // Planaxis — yellow
+  ["#001a2a","#38bdf8"], // Core — sky blue
+  ["#1a0a1a","#e879f9"], // Atmosphere — magenta
+  ["#001a10","#34d399"], // Celestia by Kucoin — teal
+  ["#2a0a00","#fb7185"], // The Rave Cave — red
+  ["#1a1a00","#a3e635"], // Cage — lime
+  ["#0a1a1a","#2dd4bf"], // Melodia by Corona — cyan
+  ["#200a2a","#a78bfa"], // Elixir — violet
+  ["#2a1000","#fb923c"], // Rose Garden — amber
+  ["#0a0a2a","#818cf8"], // Freedom by Bud — indigo
 ];
 const stageBgLight = [
-  ["#f5e8d4","#7a3a10"], // Moosebar
-  ["#e8d4f5","#4a1a7a"], // The Great Library
-  ["#d4f5d4","#1a6b1a"], // Mainstage
-  ["#d4f0e8","#0a4a30"], // House Of Fortune by JBL
-  ["#f5d4e8","#7a1040"], // Crystal Garden
-  ["#f5e8d4","#7a3a10"], // Planaxis
-  ["#d4f5d4","#1a6b1a"], // Atmosphere
-  ["#f5f0d4","#6a4a10"], // Core
-  ["#d4f0e8","#0a4a30"], // The Rave Cave
-  ["#e8d4f5","#4a1a7a"], // Cage
-  ["#f5d4e8","#7a1040"], // Melodia by Corona
-  ["#d4e8f5","#0a3a6a"], // Celestia by Kucoin
-  ["#f5d4e8","#7a1040"], // Elixir
-  ["#f5e4d4","#7a3a10"], // Rose Garden
-  ["#d4d4f5","#2a2a8a"], // Freedom by Bud
+  ["#fff0e0","#c2410c"], // Moosebar — orange
+  ["#f0e8ff","#6b21a8"], // The Great Library — purple
+  ["#e0f5e0","#166534"], // Mainstage — green
+  ["#e0f0ff","#1d4ed8"], // House Of Fortune by JBL — blue
+  ["#ffe0f0","#9d174d"], // Crystal Garden — pink
+  ["#fffbe0","#92400e"], // Planaxis — yellow
+  ["#e0f4ff","#075985"], // Core — sky blue
+  ["#fce7ff","#86198f"], // Atmosphere — magenta
+  ["#e0fff5","#065f46"], // Celestia by Kucoin — teal
+  ["#ffe0e5","#be123c"], // The Rave Cave — red
+  ["#f5ffe0","#3f6212"], // Cage — lime
+  ["#e0fffe","#0e7490"], // Melodia by Corona — cyan
+  ["#f0e8ff","#4c1d95"], // Elixir — violet
+  ["#fff4e0","#92400e"], // Rose Garden — amber
+  ["#e8e8ff","#3730a3"], // Freedom by Bud — indigo
 ];
 function getActColors(si) {
   const isLight = document.body.classList.contains('light');
@@ -387,7 +387,7 @@ function t(h,m){ return Math.round((h + (m||0)/60) * 1000) / 1000; }
 const fri = [
   {s:"Mainstage",n:"DISCOVERY",a:t(12),b:t(14)},{s:"Mainstage",n:"Vintage Culture",a:t(14),b:t(15,30)},{s:"Mainstage",n:"Disco Lines",a:t(15,30),b:t(16,30)},{s:"Mainstage",n:"Bassjackers",a:t(16,30),b:t(17,30)},{s:"Mainstage",n:"Henri PFR",a:t(17,35),b:t(18,35)},{s:"Mainstage",n:"NERVO",a:t(18,40),b:t(19,40)},{s:"Mainstage",n:"Marlon Hoffstadt",a:t(19,40),b:t(20,40)},{s:"Mainstage",n:"NOVAH",a:t(20,40),b:t(21,40)},{s:"Mainstage",n:"The Chainsmokers",a:t(21,45),b:t(22,45)},{s:"Mainstage",n:"Sebastian Ingrosso",a:t(22,50),b:t(23,50)},{s:"Mainstage",n:"Martin Garrix",a:t(23,50),b:t(24,50)},
   {s:"Freedom by Bud",n:"Semsei",a:t(12),b:t(13,30)},{s:"Freedom by Bud",n:"Jesabel",a:t(13,30),b:t(15)},{s:"Freedom by Bud",n:"Rose Ringed",a:t(15),b:t(16,30)},{s:"Freedom by Bud",n:"Frank Verstraeten",a:t(16,30),b:t(18)},{s:"Freedom by Bud",n:"Max Styler",a:t(18),b:t(19,30)},{s:"Freedom by Bud",n:"Miss Monique",a:t(19,30),b:t(21)},{s:"Freedom by Bud",n:"Mind Against",a:t(21),b:t(22,30)},{s:"Freedom by Bud",n:"4444 OF A KIND",a:t(22,30),b:t(23,30)},{s:"Freedom by Bud",n:"Holy Priest",a:t(23,30),b:t(24,30)},
-  {s:"Rose Garden",n:"Synoxis",a:t(12),b:t(13,30)},{s:"Rose Garden",n:"MAE.LIEN",a:t(13,30),b:t(14,30)},{s:"Rose Garden",n:"Anton Invicta",a:t(14,30),b:t(15,30)},{s:"Rose Garden",n:"STOOG3S",a:t(15,30),b:t(16,30)},{s:"Rose Garden",n:"More to be announced",a:t(16,30),b:t(17)},{s:"Rose Garden",n:"Blooom b2b Sudley",a:t(17),b:t(18)},{s:"Rose Garden",n:"Primate",a:t(18),b:t(19)},{s:"Rose Garden",n:"ÆON:MODE",a:t(19),b:t(20)},{s:"Rose Garden",n:"Murdock",a:t(20),b:t(21)},{s:"Rose Garden",n:"A Little Sound",a:t(21),b:t(22)},{s:"Rose Garden",n:"Kanine",a:t(22),b:t(23)},{s:"Rose Garden",n:"Alison Wonderland",a:t(23),b:t(24)},{s:"Rose Garden",n:"Camo & Krooked",a:t(24),b:t(25)},
+  {s:"Rose Garden",n:"Synoxis",a:t(12),b:t(13,30)},{s:"Rose Garden",n:"MAE.LIEN",a:t(13,30),b:t(14,30)},{s:"Rose Garden",n:"Anton Invicta",a:t(14,30),b:t(16)},{s:"Rose Garden",n:"STOOG3S",a:t(16),b:t(17)},{s:"Rose Garden",n:"Blooom b2b Sudley",a:t(17),b:t(18)},{s:"Rose Garden",n:"Primate",a:t(18),b:t(19)},{s:"Rose Garden",n:"ÆON:MODE",a:t(19),b:t(20)},{s:"Rose Garden",n:"Murdock",a:t(20),b:t(21)},{s:"Rose Garden",n:"A Little Sound",a:t(21),b:t(22)},{s:"Rose Garden",n:"Kanine",a:t(22),b:t(23)},{s:"Rose Garden",n:"Alison Wonderland",a:t(23),b:t(24)},{s:"Rose Garden",n:"Camo & Krooked",a:t(24),b:t(25)},
   {s:"Elixir",n:"Monsieur",a:t(13),b:t(14,30)},{s:"Elixir",n:"High Grade Sound",a:t(14,30),b:t(16)},{s:"Elixir",n:"DJ Milinguap",a:t(16),b:t(17)},{s:"Elixir",n:"Soul Shakers",a:t(17),b:t(18)},{s:"Elixir",n:"Flavour Drop",a:t(18),b:t(19,30)},{s:"Elixir",n:"Tola OG",a:t(19,30),b:t(20,30)},{s:"Elixir",n:"Nona Van Braeckel",a:t(20,30),b:t(21,30)},{s:"Elixir",n:"Unregular",a:t(21,30),b:t(22,30)},{s:"Elixir",n:"Audiowave",a:t(22,30),b:t(23,30)},{s:"Elixir",n:"Rick & James",a:t(23,30),b:t(25)},
   {s:"Cage",n:"Sacha Malice",a:t(12),b:t(13)},{s:"Cage",n:"RAYZEN",a:t(13),b:t(14)},{s:"Cage",n:"Sandy Warez & REVENJA",a:t(14),b:t(15)},{s:"Cage",n:"elMefti",a:t(15),b:t(16)},{s:"Cage",n:"Lolalita & Brennt",a:t(16),b:t(17)},{s:"Cage",n:"VON BIKRÄV",a:t(17),b:t(18)},{s:"Cage",n:"DITHER",a:t(18),b:t(19)},{s:"Cage",n:"GPF & Dr Donk",a:t(19),b:t(20)},{s:"Cage",n:"MIND COMPRESSOR",a:t(20),b:t(21)},{s:"Cage",n:"LUNAKORPZ",a:t(21),b:t(22)},{s:"Cage",n:"Vernex & NRKi",a:t(22),b:t(23)},
   {s:"The Rave Cave",n:"More to be announced",a:t(13),b:t(14,30)},{s:"The Rave Cave",n:"Thomas Moulene",a:t(14,30),b:t(16)},{s:"The Rave Cave",n:"Panda Sound System",a:t(16),b:t(17)},{s:"The Rave Cave",n:"Paloma",a:t(17),b:t(18,30)},{s:"The Rave Cave",n:"Zuke",a:t(18,30),b:t(19,30)},{s:"The Rave Cave",n:"Justin Wilkes",a:t(19,30),b:t(21)},{s:"The Rave Cave",n:"Nastya Dikikh",a:t(21),b:t(22)},{s:"The Rave Cave",n:"CVNTS",a:t(22),b:t(23)},{s:"The Rave Cave",n:"Junkie Kid",a:t(23),b:t(24)},
