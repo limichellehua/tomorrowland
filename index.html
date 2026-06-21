@@ -272,6 +272,7 @@ body.light .walk-pill-orange .wp-stages { color: #7a3a10; }
   <div class="top-bar">
     <div class="app-title">Tomorrowland 2026 — W1</div>
     <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark">🌙</button>
+    <button class="theme-toggle" id="time-toggle" onclick="toggleTimeFormat()" title="Toggle time format">12h</button>
     <div class="user-badge">
       <div class="user-avatar" id="user-avatar"></div>
       <span id="user-name-display"></span>
@@ -442,14 +443,24 @@ const allDays = {"Fri Jul 17": fri, "Sat Jul 18": sat, "Sun Jul 19": sun};
 const dayKeys = ["Fri Jul 17","Sat Jul 18","Sun Jul 19"];
 let currentDay = "Fri Jul 17", currentTab = 'grid', currentUser = null, allUsers = [];
 
+let use24h = localStorage.getItem('tml26_time') === '24h';
 function fmt12(h) {
   const totalMins = Math.round(h * 60);
   const r = totalMins % (24 * 60);
   const hrs = Math.floor(r / 60);
   const mins = r % 60;
+  if(use24h) {
+    return hrs + ':' + mins.toString().padStart(2,'0');
+  }
   const ap = hrs >= 12 ? 'pm' : 'am';
   const hr = hrs % 12 || 12;
   return hr + (mins ? ':' + mins.toString().padStart(2,'0') : '') + ap;
+}
+function toggleTimeFormat() {
+  use24h = !use24h;
+  localStorage.setItem('tml26_time', use24h ? '24h' : '12h');
+  document.getElementById('time-toggle').textContent = use24h ? '24h' : '12h';
+  renderGrid(); renderMySchedule();
 }
 function favKey(act) { return act.n + '|' + act.s + '|' + act.a; }
 
@@ -1111,6 +1122,7 @@ function toggleTheme() {
 
 const savedTheme = localStorage.getItem('tml26_theme');
 if(savedTheme === 'light') { document.body.classList.add('light'); document.getElementById('theme-toggle').textContent = '🌑'; }
+if(use24h) document.getElementById('time-toggle').textContent = '24h';
 
 const WALK_CONFIRMED = new Set([
   'Mainstage|Freedom by Bud','Mainstage|The Great Library','Mainstage|House Of Fortune by JBL',
