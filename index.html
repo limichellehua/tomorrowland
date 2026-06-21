@@ -450,6 +450,7 @@ const dayKeys = ["Fri Jul 17","Sat Jul 18","Sun Jul 19"];
 let currentDay = "Fri Jul 17", currentTab = 'grid', currentUser = null, allUsers = [];
 
 
+let use24h = localStorage.getItem('tml26_time') === '24h';
 function fmt12(h) {
   const totalMins = Math.round(h * 60);
   const r = totalMins % (24 * 60);
@@ -488,7 +489,12 @@ async function loadAllUsers() {
 
 async function saveCurrentUser() {
   if(!currentUser) return;
-  await supaFetch('picks?id=eq.' + currentUser.id, 'PATCH', { favorites: currentUser.favorites, mustsees: currentUser.mustsees || [], updated_at: new Date().toISOString() });
+  try {
+    await supaFetch('picks?id=eq.' + currentUser.id, 'PATCH', { favorites: currentUser.favorites, mustsees: currentUser.mustsees || [], updated_at: new Date().toISOString() });
+  } catch(e) {
+    // fallback: save without mustsees if column doesn't exist
+    await supaFetch('picks?id=eq.' + currentUser.id, 'PATCH', { favorites: currentUser.favorites, updated_at: new Date().toISOString() });
+  }
   await loadAllUsers();
 }
 
@@ -578,7 +584,9 @@ async function submitOnboard() {
 async function tryAutoLogin() {
   const uid = localStorage.getItem('tml26_uid');
   if(!uid) { initColorGrid(); return; }
-  await loadAllUsers();
+  try {
+    await loadAllUsers();
+  } catch(e) { console.error(e); }
   const user = allUsers.find(u => u.id === uid);
   if(user) { currentUser = user; enterApp(); } else { localStorage.removeItem('tml26_uid'); initColorGrid(); }
 }
