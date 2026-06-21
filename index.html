@@ -68,6 +68,12 @@ body.light .theme-toggle { border-color: #ddd; }
 body.light .tt-banner { background:#f0f0f0;border-color:#ddd;color:#888; }
 .walk-sel { border: 1px solid #2a2a2a; background: #141414; color: #f0f0f0; }
 body.light .walk-sel { background: #fff; border-color: #ddd; color: #1a1a1a; }
+.list-stage-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #555; padding: 10px 0 4px; border-top: 1px solid #1e1e1e; margin-top: 4px; }
+body.light .list-stage-title { color: #999; border-color: #e0e0e0; }
+.list-act { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 8px; margin-bottom: 3px; cursor: pointer; }
+.list-act-time { font-size: 11px; color: #888; min-width: 90px; flex-shrink: 0; }
+.list-act-name { font-size: 13px; font-weight: 600; flex: 1; }
+.list-act-favs { display: flex; gap: 3px; flex-shrink: 0; }
 .onboard-overlay { position: fixed; inset: 0; background: #0a0a0a; display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
 .onboard-card { background: #141414; border: 1px solid #2a2a2a; border-radius: 16px; padding: 40px 36px; max-width: 420px; width: 100%; }
 .onboard-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
@@ -429,7 +435,7 @@ const sun = [
   {s:"Cage",n:"Klaps F2F Miamor",a:t(12),b:t(14)},{s:"Cage",n:"Hurts F2F ROW 1",a:t(14),b:t(15,30)},{s:"Cage",n:"FUMI F2F HUJUS",a:t(15,30),b:t(17)},{s:"Cage",n:"David Löhlein F2F Yasmin Regisford",a:t(17),b:t(18,30)},{s:"Cage",n:"EMILIJA F2F Frederic Selected",a:t(18,30),b:t(20)},{s:"Cage",n:"Serafina F2F zwilling",a:t(20),b:t(21,30)},{s:"Cage",n:"Adrián Mills F2F SISU",a:t(21,30),b:t(23)},
   {s:"The Rave Cave",n:"YERUN",a:t(13),b:t(15)},{s:"The Rave Cave",n:"Mell Tierra",a:t(15),b:t(16,30)},{s:"The Rave Cave",n:"Dries Smet",a:t(16,30),b:t(17,30)},{s:"The Rave Cave",n:"Noaffection b2b OM3N",a:t(17,30),b:t(19)},{s:"The Rave Cave",n:"Nederhand",a:t(19),b:t(20)},{s:"The Rave Cave",n:"Foxed Up",a:t(20),b:t(21)},{s:"The Rave Cave",n:"MITCHED",a:t(21),b:t(22)},{s:"The Rave Cave",n:"Coco Bevan",a:t(22),b:t(23)},{s:"The Rave Cave",n:"Godtripper",a:t(23),b:t(24,30)},
   {s:"Planaxis",n:"Exception",a:t(12),b:t(13,15)},{s:"Planaxis",n:"Punctual",a:t(13,15),b:t(15)},{s:"Planaxis",n:"SABAI",a:t(15),b:t(16)},{s:"Planaxis",n:"[IVY]",a:t(16),b:t(17)},{s:"Planaxis",n:"Nostalgix",a:t(17),b:t(18)},{s:"Planaxis",n:"LEVEL UP",a:t(18),b:t(19)},{s:"Planaxis",n:"Arcando",a:t(19),b:t(20)},{s:"Planaxis",n:"Malaa's Alter Ego",a:t(20),b:t(21)},{s:"Planaxis",n:"Liquid Stranger",a:t(21),b:t(22)},{s:"Planaxis",n:"Seven Lions",a:t(22),b:t(23)},{s:"Planaxis",n:"Subtronics",a:t(23),b:t(24)},
-  {s:"Melodia by Corona",n:"Le Windey",a:t(12),b:t(13,30)},{s:"Melodia by Corona",n:"DJ Gee",a:t(13,30),b:t(14,30)},{s:"Melodia by Corona",n:"Christian82",a:t(14,30),b:t(15,30)},{s:"Melodia by Corona",n:"Tania Moon",a:t(15,30),b:t(16,30)},{s:"Melodia by Corona",n:"CRISTINA TOSIO",a:t(16,30),b:t(18)},{s:"Melodia by Corona",n:"Lunnas",a:t(18),b:t(19)},{s:"Melodia by Corona",n:"Marta Loe b2b Idemi",a:t(19),b:t(20)},{s:"Melodia by Corona",n:"Delafino",a:t(20),b:t(21)},{s:"Melodia by Corona",n:"Dave Hang",a:t(21),b:t(22)},{s:"Melodia by Corona",n:"Felix Da Funk",a:t(22),b:t(23)},
+  {s:"Melodia by Corona",n:"Le Windey",a:t(12),b:t(13,30)},{s:"Melodia by Corona",n:"DJ Gee",a:t(13,30),b:t(14,30)},{s:"Melodia by Corona",n:"Christian82",a:t(14,30),b:t(15,30)},{s:"Melodia by Corona",n:"Tania Moon",a:t(15,30),b:t(16,30)},{s:"Melodia by Corona",n:"CRISTINA TOSIO",a:t(16,30),b:t(18)},{s:"Melodia by Corona",n:"Lunnas",a:t(18),b:t(19)},{s:"Melodia by Corona",n:"Marta Loe b2b Rebecca Ark",a:t(19),b:t(20)},{s:"Melodia by Corona",n:"Delafino",a:t(20),b:t(21)},{s:"Melodia by Corona",n:"Dave Hang",a:t(21),b:t(22)},{s:"Melodia by Corona",n:"Felix Da Funk",a:t(22),b:t(23)},
   {s:"Celestia by Kucoin",n:"Sentin",a:t(12),b:t(13,30)},{s:"Celestia by Kucoin",n:"Cyria (Hybrid)",a:t(13,30),b:t(15)},{s:"Celestia by Kucoin",n:"Fake Mood",a:t(15),b:t(16,30)},{s:"Celestia by Kucoin",n:"Öona Dahl",a:t(16,30),b:t(18)},{s:"Celestia by Kucoin",n:"Helsloot",a:t(18),b:t(19,30)},{s:"Celestia by Kucoin",n:"MXGPU (Hybrid)",a:t(19,30),b:t(21)},{s:"Celestia by Kucoin",n:"Nico Morano b2b Xinobi",a:t(21),b:t(22,30)},
   {s:"Atmosphere",n:"Flour",a:t(12),b:t(14)},{s:"Atmosphere",n:"VE/RA",a:t(14),b:t(16)},{s:"Atmosphere",n:"Blondex",a:t(16),b:t(17,30)},{s:"Atmosphere",n:"SHDW b2b ÜBERKIKZ",a:t(17,30),b:t(19)},{s:"Atmosphere",n:"Øtta",a:t(19),b:t(20,30)},{s:"Atmosphere",n:"Anetha",a:t(20,30),b:t(22,30)},{s:"Atmosphere",n:"Amelie Lens",a:t(22,30),b:t(23,55)},
   {s:"Core",n:"Massignan.y",a:t(12),b:t(14)},{s:"Core",n:"Ineffekt",a:t(14),b:t(16)},{s:"Core",n:"Fafi Abdel Nour",a:t(16),b:t(18)},{s:"Core",n:"Sedef Adasï",a:t(18),b:t(20)},{s:"Core",n:"Avalon Emerson b2b Ben UFO",a:t(20),b:t(22)},{s:"Core",n:"Job Jobse",a:t(22),b:t(23,50)},
@@ -443,7 +449,7 @@ const allDays = {"Fri Jul 17": fri, "Sat Jul 18": sat, "Sun Jul 19": sun};
 const dayKeys = ["Fri Jul 17","Sat Jul 18","Sun Jul 19"];
 let currentDay = "Fri Jul 17", currentTab = 'grid', currentUser = null, allUsers = [];
 
-let use24h = localStorage.getItem('tml26_time') === '24h';
+
 function fmt12(h) {
   const totalMins = Math.round(h * 60);
   const r = totalMins % (24 * 60);
@@ -639,7 +645,7 @@ function buildDayTabs() {
     const b = document.createElement('button');
     b.className = 'tab' + (d === currentDay ? ' active' : '');
     b.textContent = d;
-    b.onclick = () => { currentDay = d; renderGrid(); };
+    b.onclick = () => { currentDay = d; buildDayTabs(); renderGrid(); };
     el.appendChild(b);
   });
 }
